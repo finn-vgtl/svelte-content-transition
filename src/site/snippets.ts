@@ -118,6 +118,26 @@ const STATUS_EXAMPLE = `<script lang="ts">
 <!-- Text has no numeric order, so pin the direction. -->
 <NumericText value={steps[index]} direction="up" style="font-size: 40px; font-weight: 600" />`;
 
+const INLINE_EXAMPLE = `<script lang="ts">
+	import { NumericText } from "svelte-content-transition";
+
+	let readers = $state(97);
+
+	$effect(() => {
+		const id = setInterval(() => {
+			// Hover around 100 so the count keeps gaining and losing a digit.
+			readers += readers < 100 ? 2 : Math.random() < 0.5 ? -3 : 1;
+		}, 1500);
+		return () => clearInterval(id);
+	});
+</script>
+
+<!-- Inherits the paragraph's font and sits on its baseline. -->
+<p>
+	Right now, <NumericText value={readers} style="font-weight: 600" /> people are reading this page,
+	and the sentence makes room as the count grows.
+</p>`;
+
 const TUNING_EXAMPLE = `<NumericText
 	value={value}
 	duration={700}
@@ -169,6 +189,7 @@ export {
 	COUNTDOWN_EXAMPLE,
 	COUNTER_EXAMPLE,
 	FORMATTING_EXAMPLE,
+	INLINE_EXAMPLE,
 	INSTALL_COMMANDS,
 	PACKAGE,
 	PRICE_EXAMPLE,

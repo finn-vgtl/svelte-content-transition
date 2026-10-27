@@ -5,6 +5,7 @@
 	import Clock from "../site/examples/Clock.svelte";
 	import Countdown from "../site/examples/Countdown.svelte";
 	import Counter from "../site/examples/Counter.svelte";
+	import Inline from "../site/examples/Inline.svelte";
 	import PriceTicker from "../site/examples/PriceTicker.svelte";
 	import Status from "../site/examples/Status.svelte";
 	import InstallCommand from "../site/InstallCommand.svelte";
@@ -14,6 +15,7 @@
 	import {
 		CLOCK_EXAMPLE,
 		COUNTDOWN_EXAMPLE,
+		INLINE_EXAMPLE,
 		PRICE_EXAMPLE,
 		QUICK_START,
 		STATUS_EXAMPLE,
@@ -74,6 +76,15 @@
 				'Any string works, not just numbers. Plain text is matched from the start, so the shared "Sav" stays put and only the ending rolls.',
 			demo: Status,
 			code: STATUS_EXAMPLE,
+		},
+		{
+			id: "inline",
+			title: "Inline in a sentence",
+			file: "Inline.svelte",
+			description:
+				"NumericText renders inline, inherits the surrounding font and sits on the text baseline. When the value gains a digit, the width animates and the rest of the line follows.",
+			demo: Inline,
+			code: INLINE_EXAMPLE,
 		},
 	];
 

@@ -194,6 +194,46 @@ describe("GlyphTransitionEngine", () => {
 		});
 	});
 
+	describe("layout size", () => {
+		it("starts at the first value's width", () => {
+			engine.apply(spec("123"), typesetter);
+			expect(engine.layoutSize).toEqual({ width: 3 * ADVANCE, height: HEIGHT });
+			expect(engine.isResizing).toBe(false);
+		});
+
+		it("eases the width towards a longer value", () => {
+			engine.apply(spec("Save"), typesetter);
+			engine.apply(spec("Saving"), typesetter);
+			expect(engine.contentSize.width).toBe(6 * ADVANCE);
+			expect(engine.layoutSize.width).toBe(4 * ADVANCE);
+			expect(engine.isResizing).toBe(true);
+
+			engine.tick(1 / 60);
+			const { width } = engine.layoutSize;
+			expect(width).toBeGreaterThan(4 * ADVANCE);
+			expect(width).toBeLessThan(6 * ADVANCE);
+
+			settle(engine);
+			expect(engine.layoutSize.width).toBe(6 * ADVANCE);
+			expect(engine.isResizing).toBe(false);
+		});
+
+		it("keeps running until the width settles", () => {
+			engine.apply(spec("1"), typesetter);
+			engine.apply(spec("1", { duration: 1 }), typesetter);
+			engine.apply(spec("1 ", { duration: 1 }), typesetter);
+			// The trailing space arrives invisibly, so only the width is still moving.
+			expect(engine.tick(1 / 60)).toBe(true);
+		});
+
+		it("jumps to the new width with animations off", () => {
+			engine.apply(spec("Save"), typesetter);
+			engine.apply(spec("Saving", { animationsEnabled: false }), typesetter);
+			expect(engine.layoutSize.width).toBe(6 * ADVANCE);
+			expect(engine.isResizing).toBe(false);
+		});
+	});
+
 	describe("stagger", () => {
 		it("delays arriving glyphs one after another across the stagger window", () => {
 			engine.apply(spec("111"), typesetter);

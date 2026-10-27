@@ -297,8 +297,13 @@ class NumericTextLabel {
 	}
 
 	private reportContentSize(): void {
-		const { width, height } = this.engine.contentSize;
-		const rounded = { width: Math.round(width), height: Math.round(height) };
+		const { width, height } = this.engine.layoutSize;
+		// Whole pixels once settled; sub-pixel steps while resizing so the host glides smoothly.
+		const precision = this.engine.isResizing ? 100 : 1;
+		const rounded = {
+			width: Math.round(width * precision) / precision,
+			height: Math.round(height),
+		};
 		if (
 			this.reportedSize &&
 			this.reportedSize.width === rounded.width &&
@@ -340,6 +345,7 @@ class NumericTextLabel {
 		const running = this.engine.tick(deltaTime);
 		this.syncNodes();
 		this.render();
+		this.reportContentSize();
 
 		if (running) this.frame = requestAnimationFrame(this.step);
 	};

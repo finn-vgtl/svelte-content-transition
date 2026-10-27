@@ -81,12 +81,31 @@ describe("NumericTextLabel", () => {
 	});
 
 	it("only reports the size when it changes", () => {
-		label.update(spec("123"));
-		label.update(spec("456"));
+		const instant = { animationsEnabled: false };
+		label.update(spec("123", instant));
+		label.update(spec("456", instant));
 		expect(sizes).toHaveLength(1);
-		label.update(spec("4567"));
+		label.update(spec("4567", instant));
 		expect(sizes).toHaveLength(2);
 		expect(sizes[1].width).toBeGreaterThan(sizes[0].width);
+	});
+
+	it("grows the reported width over several frames", async () => {
+		label.update(spec("12", { duration: 0.3 }));
+		label.update(spec("1234", { duration: 0.3 }));
+		const [start] = sizes;
+		await waitForSettle(host);
+		await vi.waitFor(() =>
+			expect(sizes.at(-1)?.width).toBeGreaterThan(start.width * 1.5),
+		);
+
+		const widths = sizes.map((size) => size.width);
+		const end = widths[widths.length - 1];
+		const between = widths.filter(
+			(width) => width > start.width && width < end,
+		);
+		expect(between.length).toBeGreaterThan(1);
+		expect(Number.isInteger(end)).toBe(true);
 	});
 
 	it("ignores an update that changes nothing", () => {

@@ -1,3 +1,4 @@
+import { SpringValue } from "../animation/SpringValue";
 import { TransitionSprings } from "../animation/TransitionSprings";
 import { NumericTextAlignment, TransitionDirection } from "../enums";
 import {
@@ -29,6 +30,13 @@ class GlyphTransitionEngine {
 		TransitionSprings.DEFAULT_BOUNCE,
 	);
 
+	/** Width the host is laid out at. Follows `contentSize` on the glyphs' position spring. */
+	private readonly layoutWidth = new SpringValue(
+		this.springs.position,
+		0,
+		0.02,
+	);
+
 	private currentText = "";
 	private hasContent = false;
 	private countsDown = false;
@@ -43,6 +51,7 @@ class GlyphTransitionEngine {
 		const requested = new TransitionSprings(spec.duration, spec.bounce);
 		if (!requested.equals(this.springs)) {
 			this.springs = requested;
+			this.layoutWidth.spring = requested.position;
 			for (const glyph of this.glyphs) glyph.adoptSprings(requested);
 		}
 
@@ -65,8 +74,10 @@ class GlyphTransitionEngine {
 			spec.animationsEnabled && this.hasContent && !typographyChanged;
 		if (animate) {
 			this.reconcile(line, shape);
+			this.layoutWidth.retarget(line.width);
 		} else {
 			this.rebuild(line, shape);
+			this.layoutWidth.snapTo(line.width);
 		}
 
 		if (!this.blurActive) {
@@ -79,8 +90,17 @@ class GlyphTransitionEngine {
 		this.hasContent = true;
 	}
 
+	/** The size to lay the host out at. Its width trails `contentSize` while the value changes. */
+	get layoutSize(): ContentSize {
+		return { width: this.layoutWidth.value, height: this.contentSize.height };
+	}
+
+	get isResizing(): boolean {
+		return !this.layoutWidth.isSettled;
+	}
+
 	tick(deltaTime: number): boolean {
-		let running = false;
+		let running = this.layoutWidth.tick(deltaTime);
 		let index = 0;
 
 		while (index < this.glyphs.length) {

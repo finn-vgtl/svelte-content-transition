@@ -138,23 +138,23 @@
 		</fieldset>
 
 		<label class="range">
-			<span>duration <output>{duration}ms</output></span>
+			<span>duration <output><NumericText value="{duration}ms" /></output></span>
 			<input type="range" min="100" max="1500" step="10" bind:value={duration} />
 		</label>
 		<label class="range">
-			<span>bounce <output>{bounce}</output></span>
+			<span>bounce <output><NumericText value={bounce.toFixed(2)} /></output></span>
 			<input type="range" min="0" max="0.95" step="0.01" bind:value={bounce} />
 		</label>
 		<label class="range">
-			<span>enterScale <output>{enterScale}</output></span>
+			<span>enterScale <output><NumericText value={enterScale.toFixed(2)} /></output></span>
 			<input type="range" min="0" max="2" step="0.05" bind:value={enterScale} />
 		</label>
 		<label class="range">
-			<span>travel <output>{round(travel)}</output></span>
+			<span>travel <output><NumericText value={travel.toFixed(2)} /></output></span>
 			<input type="range" min="0" max="3" step="0.01" bind:value={travel} />
 		</label>
 		<label class="range">
-			<span>blurIntensity <output>{blurIntensity}</output></span>
+			<span>blurIntensity <output><NumericText value={blurIntensity.toFixed(1)} /></output></span>
 			<input type="range" min="0" max="8" step="0.1" bind:value={blurIntensity} />
 		</label>
 		<div class="checkboxes">

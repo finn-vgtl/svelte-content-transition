@@ -29,5 +29,9 @@ export default defineConfig({
 			provider: playwright(),
 			instances: [{ browser: "chromium" }],
 		},
+		coverage: {
+			provider: "v8",
+			include: ["src/lib/**"],
+		},
 	},
 });

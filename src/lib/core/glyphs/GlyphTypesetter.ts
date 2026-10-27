@@ -1,47 +1,31 @@
 import type { TypesetLine } from "../records";
 import { computeSlots, splitUnits } from "./GlyphSlots";
 
-interface GlyphTypography {
-	fontFamily?: string | null;
-	fontSize: number;
-	fontWeight?: string | null;
-	fontStyle?: string | null;
-	letterSpacing: number;
-	monospacedDigits: boolean;
-}
+/** Inherited properties that change how glyphs are shaped or spaced, as kebab-case CSS names. */
+const TYPOGRAPHY_PROPERTIES = [
+	"font-family",
+	"font-size",
+	"font-weight",
+	"font-style",
+	"font-stretch",
+	"font-kerning",
+	"font-optical-sizing",
+	"font-synthesis",
+	"font-variant-caps",
+	"font-variant-east-asian",
+	"font-variant-ligatures",
+	"font-variant-numeric",
+	"font-variant-position",
+	"font-feature-settings",
+	"font-variation-settings",
+	"letter-spacing",
+	"word-spacing",
+	"text-transform",
+] as const;
 
-interface GlyphFontStyle {
-	fontFamily: string;
-	fontSize: string;
-	fontWeight: string;
-	fontStyle: string;
-	letterSpacing: string;
-	fontVariantNumeric: string;
-}
-
-const SYSTEM_FONT_STACK =
-	'-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
-
-const GENERIC_FAMILIES: Record<string, string> = {
-	default: SYSTEM_FONT_STACK,
-	system: SYSTEM_FONT_STACK,
-	"system-ui": "system-ui",
-	sansSerif: "sans-serif",
-	"sans-serif": "sans-serif",
-	serif: "serif",
-	monospace: "monospace",
-	cursive: "cursive",
-	fantasy: "fantasy",
-};
+type GlyphFontStyle = Record<(typeof TYPOGRAPHY_PROPERTIES)[number], string>;
 
 const FINGERPRINT_PROBE = "0123456789 Hxg";
-
-const resolveFamily = (family: string | null | undefined): string => {
-	if (!family) return SYSTEM_FONT_STACK;
-	if (GENERIC_FAMILIES[family]) return GENERIC_FAMILIES[family];
-	if (family.includes(",") || /^["'].*["']$/.test(family)) return family;
-	return `"${family.replace(/"/g, '\\"')}"`;
-};
 
 let measureElement: HTMLSpanElement | null = null;
 
@@ -64,7 +48,6 @@ const acquireMeasureElement = (): HTMLSpanElement | null => {
 		whiteSpace: "pre",
 		lineHeight: "normal",
 		direction: "ltr",
-		fontKerning: "normal",
 	} satisfies Partial<CSSStyleDeclaration>);
 	document.body.appendChild(element);
 	measureElement = element;
@@ -76,18 +59,19 @@ class GlyphTypesetter {
 	private readonly styleKey: string;
 	private fingerprint: string | null = null;
 
-	constructor(typography: GlyphTypography) {
-		this.fontStyle = {
-			fontFamily: resolveFamily(typography.fontFamily),
-			fontSize: `${typography.fontSize}px`,
-			fontWeight: typography.fontWeight ?? "normal",
-			fontStyle: typography.fontStyle ?? "normal",
-			letterSpacing: `${typography.letterSpacing}px`,
-			fontVariantNumeric: typography.monospacedDigits
-				? "tabular-nums"
-				: "normal",
-		};
-		this.styleKey = Object.values(this.fontStyle).join("|");
+	/** Typesets in whatever typography `source` resolves to through the cascade. */
+	static inheritingFrom(source: Element): GlyphTypesetter {
+		const computed = getComputedStyle(source);
+		const fontStyle = {} as GlyphFontStyle;
+		for (const property of TYPOGRAPHY_PROPERTIES) {
+			fontStyle[property] = computed.getPropertyValue(property);
+		}
+		return new GlyphTypesetter(fontStyle);
+	}
+
+	constructor(fontStyle: GlyphFontStyle) {
+		this.fontStyle = fontStyle;
+		this.styleKey = Object.values(fontStyle).join("|");
 	}
 
 	get key(): string {
@@ -148,10 +132,14 @@ class GlyphTypesetter {
 
 	private prepare(): HTMLSpanElement | null {
 		const element = acquireMeasureElement();
-		if (element) Object.assign(element.style, this.fontStyle);
+		if (element) {
+			for (const property of TYPOGRAPHY_PROPERTIES) {
+				element.style.setProperty(property, this.fontStyle[property]);
+			}
+		}
 		return element;
 	}
 }
 
-export type { GlyphFontStyle, GlyphTypography };
-export { GlyphTypesetter };
+export type { GlyphFontStyle };
+export { FINGERPRINT_PROBE, GlyphTypesetter };

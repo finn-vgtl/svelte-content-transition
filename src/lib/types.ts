@@ -2,19 +2,6 @@ import type { HTMLAttributes } from "svelte/elements";
 
 type NumericTextAlignment = "start" | "center" | "end";
 type NumericTextDirection = "auto" | "up" | "down";
-type NumericTextFontStyle = "normal" | "italic";
-type NumericTextFontWeight =
-	| "normal"
-	| "bold"
-	| "100"
-	| "200"
-	| "300"
-	| "400"
-	| "500"
-	| "600"
-	| "700"
-	| "800"
-	| "900";
 
 interface NumericTextTransitionProps {
 	/**
@@ -96,34 +83,8 @@ interface NumericTextTransitionProps {
 	animated?: boolean;
 }
 
-interface NumericTextTypographyProps {
-	/** Font size in CSS pixels. */
-	fontSize?: number;
-	/** @default 'normal' */
-	fontWeight?: NumericTextFontWeight;
-	/** @default 'normal' */
-	fontStyle?: NumericTextFontStyle;
-	/**
-	 * A font family name or a full CSS font stack. `default`, `system`, `system-ui`, `sansSerif`,
-	 * `serif`, `monospace`, `cursive` and `fantasy` map to the matching generic families.
-	 */
-	fontFamily?: string;
-	/** Extra spacing between characters, in CSS pixels. */
-	letterSpacing?: number;
-	/** Any CSS colour value. Defaults to the inherited text colour. */
-	color?: string;
-	/**
-	 * Renders digits at a uniform width. Stops unchanged digits from shifting sideways when a
-	 * neighbour changes, at the cost of the font's natural figure spacing.
-	 *
-	 * @default false
-	 */
-	monospacedDigits?: boolean;
-}
-
 interface NumericTextProps
-	extends NumericTextTypographyProps,
-		NumericTextTransitionProps,
+	extends NumericTextTransitionProps,
 		Omit<HTMLAttributes<HTMLSpanElement>, "children" | "color" | "role"> {
 	/** The text to display. Measuring, diffing and animating all happen per glyph. */
 	value: string | number;
@@ -140,14 +101,22 @@ interface NumericTextProps
 	 * @default '.'
 	 */
 	decimalSeparator?: string;
+	/**
+	 * Renders digits at a uniform width by adding `font-variant-numeric: tabular-nums`. Stops
+	 * unchanged digits from shifting sideways when a neighbour changes, at the cost of the font's
+	 * natural figure spacing. Leave it unset to inherit `font-variant-numeric` from the context.
+	 *
+	 * Everything else about the typography — font, size, weight, letter spacing, colour — is
+	 * inherited from the surrounding CSS, like any other inline text.
+	 *
+	 * @default false
+	 */
+	monospacedDigits?: boolean;
 }
 
 export type {
 	NumericTextAlignment,
 	NumericTextDirection,
-	NumericTextFontStyle,
-	NumericTextFontWeight,
 	NumericTextProps,
 	NumericTextTransitionProps,
-	NumericTextTypographyProps,
 };

@@ -3,8 +3,7 @@
 
 	import { TransitionSprings } from "./core/animation/TransitionSprings";
 	import { alignmentFromProp, directionFromProp } from "./core/enums";
-	import { fontRevision } from "./core/fontRevision";
-	import { type ContentSize, GlyphTypesetter } from "./core/glyphs";
+	import type { ContentSize } from "./core/glyphs";
 	import { NumericTextLabel } from "./core/label/NumericTextLabel";
 	import {
 		type NumericTextSpec,
@@ -12,7 +11,6 @@
 	} from "./core/records";
 	import type { NumericTextProps } from "./types";
 
-	const DEFAULT_FONT_SIZE = 17;
 	const MAX_BLUR_INTENSITY = 8;
 	const MAX_ENTER_SCALE = 2;
 	const MAX_TRAVEL_RATIO = 3;
@@ -36,12 +34,6 @@
 		maxBlurRadius,
 		clip,
 		animated,
-		color,
-		fontFamily,
-		fontSize,
-		fontWeight,
-		fontStyle,
-		letterSpacing,
 		monospacedDigits,
 		style,
 		...rest
@@ -52,19 +44,6 @@
 	let contentSize = $state.raw<ContentSize | null>(null);
 
 	const text = $derived(typeof value === "number" ? String(value) : value);
-
-	const typesetter = $derived.by(() => {
-		// Re-measure once a web font finishes loading.
-		void fontRevision.current;
-		return new GlyphTypesetter({
-			fontFamily,
-			fontSize: fontSize ?? DEFAULT_FONT_SIZE,
-			fontWeight,
-			fontStyle,
-			letterSpacing: letterSpacing ?? 0,
-			monospacedDigits: monospacedDigits ?? false,
-		});
-	});
 
 	const spec: NumericTextSpec = $derived({
 		text,
@@ -123,7 +102,7 @@
 	});
 
 	$effect(() => {
-		label?.update(spec, typesetter, color ?? null);
+		label?.update(spec);
 	});
 </script>
 
@@ -133,11 +112,12 @@
 	role="img"
 	aria-label={text}
 	style="display: inline-block; position: relative; {sizeStyle} {style ?? ''}"
+	style:font-variant-numeric={monospacedDigits ? "tabular-nums" : undefined}
 >
 	<!--
-		Plain copy of the value, styled like the typesetter's measuring element. It sizes the host and
-		shows the value before the glyphs mount (SSR, no JS), then stays hidden in flow so the host
-		keeps a text baseline when it sits inline.
+		Plain copy of the value in the inherited typography, laid out like the typesetter's measuring
+		element. It sizes the host and shows the value before the glyphs mount (SSR, no JS), then stays
+		hidden in flow so the host keeps a text baseline when it sits inline.
 	-->
 	<span
 		aria-hidden="true"
@@ -145,15 +125,6 @@
 		style:visibility={contentSize ? "hidden" : null}
 		style:white-space="pre"
 		style:line-height="normal"
-		style:font-kerning="normal"
-		style:direction="ltr"
-		style:color={color}
-		style:font-family={typesetter.fontStyle.fontFamily}
-		style:font-size={typesetter.fontStyle.fontSize}
-		style:font-weight={typesetter.fontStyle.fontWeight}
-		style:font-style={typesetter.fontStyle.fontStyle}
-		style:letter-spacing={typesetter.fontStyle.letterSpacing}
-		style:font-variant-numeric={typesetter.fontStyle.fontVariantNumeric}
-		>{text}</span
+		style:direction="ltr">{text}</span
 	>
 </span>

@@ -4,7 +4,7 @@ import {
 	type GlyphState,
 	GlyphTransitionEngine,
 } from "../glyphs";
-import type { GlyphTypesetter } from "../glyphs/GlyphTypesetter";
+import { FINGERPRINT_PROBE, GlyphTypesetter } from "../glyphs/GlyphTypesetter";
 import {
 	createNumericTextSpec,
 	type NumericTextSpec,
@@ -53,6 +53,24 @@ const setMask = (element: HTMLElement, value: string): void => {
 	element.style.setProperty("-webkit-mask-image", value);
 };
 
+/**
+ * Hidden text that inherits the host's typography. Its computed style is what glyphs are measured
+ * in, and its size changes whenever that typography does, which a ResizeObserver can see.
+ */
+const createProbe = (): HTMLSpanElement => {
+	const probe = document.createElement("span");
+	Object.assign(probe.style, {
+		position: "absolute",
+		left: "0",
+		top: "0",
+		visibility: "hidden",
+		whiteSpace: "pre",
+		lineHeight: "normal",
+	} satisfies Partial<CSSStyleDeclaration>);
+	probe.textContent = FINGERPRINT_PROBE;
+	return probe;
+};
+
 const createGlyphNode = (unit: string): GlyphNode => {
 	const window = document.createElement("span");
 	Object.assign(window.style, {
@@ -98,6 +116,7 @@ class NumericTextLabel {
 
 	private readonly engine = new GlyphTransitionEngine();
 	private readonly root: HTMLDivElement;
+	private readonly probe = createProbe();
 	private readonly nodes = new Map<number, GlyphNode>();
 	private readonly resizeObserver: ResizeObserver | null = null;
 
@@ -108,7 +127,6 @@ class NumericTextLabel {
 
 	private spec: NumericTextSpec = createNumericTextSpec();
 	private typesetter: GlyphTypesetter | null = null;
-	private color: string | null = null;
 
 	constructor(private readonly host: HTMLElement) {
 		this.root = document.createElement("div");
@@ -124,6 +142,7 @@ class NumericTextLabel {
 			userSelect: "none",
 			direction: "ltr",
 		} satisfies Partial<CSSStyleDeclaration>);
+		this.root.appendChild(this.probe);
 		host.appendChild(this.root);
 
 		this.bounds = { width: host.clientWidth, height: host.clientHeight };
@@ -134,38 +153,18 @@ class NumericTextLabel {
 					height: this.host.clientHeight,
 				};
 				this.render();
+				this.refresh();
 			});
 			this.resizeObserver.observe(host);
+			this.resizeObserver.observe(this.probe);
 		}
 	}
 
-	update(
-		spec: NumericTextSpec,
-		typesetter: GlyphTypesetter,
-		color: string | null,
-	): void {
-		const colorChanged = color !== this.color;
-		const typesetterChanged = typesetter !== this.typesetter;
-		if (!colorChanged && !typesetterChanged && specsEqual(spec, this.spec))
+	update(spec: NumericTextSpec): void {
+		const typesetter = GlyphTypesetter.inheritingFrom(this.probe);
+		if (this.typesetter?.equals(typesetter) && specsEqual(spec, this.spec))
 			return;
-
-		if (colorChanged) {
-			this.color = color;
-			this.root.style.color = color ?? "";
-		}
-
-		if (typesetterChanged) {
-			Object.assign(this.root.style, typesetter.fontStyle);
-		}
-
-		this.typesetter = typesetter;
-		this.spec = spec;
-
-		this.engine.apply(spec, typesetter);
-		this.syncNodes();
-		this.render();
-		this.reportContentSize();
-		this.start();
+		this.apply(spec, typesetter);
 	}
 
 	destroy(): void {
@@ -174,6 +173,24 @@ class NumericTextLabel {
 		this.nodes.clear();
 		this.root.remove();
 		this.onContentSizeChange = null;
+	}
+
+	/** Re-lays-out the current value if the inherited typography changed since it was applied. */
+	private refresh(): void {
+		if (!this.typesetter) return;
+		const typesetter = GlyphTypesetter.inheritingFrom(this.probe);
+		if (!typesetter.equals(this.typesetter)) this.apply(this.spec, typesetter);
+	}
+
+	private apply(spec: NumericTextSpec, typesetter: GlyphTypesetter): void {
+		this.typesetter = typesetter;
+		this.spec = spec;
+
+		this.engine.apply(spec, typesetter);
+		this.syncNodes();
+		this.render();
+		this.reportContentSize();
+		this.start();
 	}
 
 	private syncNodes(): void {

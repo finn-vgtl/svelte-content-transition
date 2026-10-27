@@ -7,7 +7,7 @@
 <main>
 	<h1>svelte-content-transition</h1>
 
-	<NumericText value={count.toFixed(2)} fontSize={48} fontWeight="600" monospacedDigits />
+	<NumericText value={count.toFixed(2)} style="font-size: 48px; font-weight: 600;" monospacedDigits />
 
 	<div class="controls">
 		<button onclick={() => (count -= Math.round(Math.random() * 100))}>Decrease</button>

@@ -2,7 +2,6 @@ import { SpringValue } from "../animation/SpringValue";
 import { TransitionSprings } from "../animation/TransitionSprings";
 import { NumericTextAlignment, TransitionDirection } from "../enums";
 import {
-	effectiveShape,
 	isBlurActive,
 	type NumericTextSpec,
 	slotKey,
@@ -69,7 +68,7 @@ class GlyphTransitionEngine {
 
 		this.countsDown = this.resolveDirection(spec);
 
-		const shape = effectiveShape(spec);
+		const { shape } = spec;
 		const animate =
 			spec.animationsEnabled && this.hasContent && !typographyChanged;
 		if (animate) {

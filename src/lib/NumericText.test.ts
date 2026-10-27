@@ -174,14 +174,6 @@ describe("NumericText", () => {
 			expect(glyphNodes(host)).toHaveLength(4);
 		});
 
-		it("does not blur with blur off", async () => {
-			const { host, rerender } = await mount({ value: 1, blur: false });
-			await rerender({ value: 2 });
-			for (const { content } of glyphNodes(host)) {
-				expect(content.style.filter).toBe("none");
-			}
-		});
-
 		it("does not blur at zero intensity", async () => {
 			const { host, rerender } = await mount({ value: 1, blurIntensity: 0 });
 			await rerender({ value: 2 });

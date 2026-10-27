@@ -43,14 +43,9 @@ interface NumericTextTransitionProps {
 	 */
 	travel?: number;
 	/**
-	 * Blurs each glyph in proportion to how far through its own transition it is.
-	 *
-	 * @default true
-	 */
-	blur?: boolean;
-	/**
-	 * Scales the blur. The radii are derived from the line height — a glyph leaving blurs harder
-	 * than one arriving — and this multiplies both. `0` is equivalent to `blur={false}`.
+	 * Blurs each glyph in proportion to how far through its own transition it is. The radii are
+	 * derived from the line height — a glyph leaving blurs harder than one arriving — and this
+	 * multiplies both. `0` turns blur off.
 	 *
 	 * Clamped to `0`–`8`. Pair a high intensity with `maxBlurRadius` when many glyphs change at
 	 * once, since blur is the costly part of the transition.

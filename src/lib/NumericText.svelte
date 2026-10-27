@@ -29,7 +29,6 @@
 		bounce,
 		enterScale,
 		travel,
-		blur,
 		blurIntensity,
 		maxBlurRadius,
 		clip,
@@ -51,7 +50,6 @@
 		direction: directionFromProp(direction),
 		decimalSeparator:
 			(decimalSeparator && Array.from(decimalSeparator)[0]) || ".",
-		blurEnabled: blur ?? true,
 		shape: {
 			blurIntensity: clamp(
 				blurIntensity ?? TRANSITION_SHAPE_DEFAULTS.blurIntensity,

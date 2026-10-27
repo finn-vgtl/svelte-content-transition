@@ -51,8 +51,7 @@ The first value renders without animation; every later change to `value` trigger
 | `bounce`           | `number`                       | `0.46`    | Overshoot of the vertical roll, `0`–`0.95`.                                              |
 | `enterScale`       | `number`                       | `0.4`     | Size glyphs arrive at and leave with, `0`–`2`. `1` disables scaling.                     |
 | `travel`           | `number`                       | `0.333`   | How far glyphs roll, as a fraction of the line height, `0`–`3`.                          |
-| `blur`             | `boolean`                      | `true`    | Blurs glyphs in proportion to their transition progress.                                 |
-| `blurIntensity`    | `number`                       | `1`       | Multiplies the blur radii, `0`–`8`.                                                      |
+| `blurIntensity`    | `number`                       | `1`       | Blurs glyphs in proportion to their transition progress, `0`–`8`. `0` turns blur off.    |
 | `maxBlurRadius`    | `number`                       | unbounded | Ceiling on the blur radius in CSS pixels. Caps the cost when many glyphs change at once. |
 | `clip`             | `boolean`                      | `true`    | Clips glyphs to the line box with a feathered edge so they don't overlap nearby content. |
 | `animated`         | `boolean`                      | `true`    | Set to `false` to apply values instantly.                                                |

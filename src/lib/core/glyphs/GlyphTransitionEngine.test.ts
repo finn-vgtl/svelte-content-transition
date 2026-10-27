@@ -420,17 +420,13 @@ describe("GlyphTransitionEngine", () => {
 			expect(byUnit(engine, "2")[0].blur.value).toBeGreaterThan(0);
 		});
 
-		it.each([
-			["disabled", { blurEnabled: false }],
-			[
-				"at zero intensity",
-				{
-					shape: { ...createNumericTextSpec().shape, blurIntensity: 0 },
-				},
-			],
-		])("never blurs when %s", (_, overrides) => {
-			engine.apply(spec("1", overrides), typesetter);
-			engine.apply(spec("2", overrides), typesetter);
+		const noBlur = {
+			shape: { ...createNumericTextSpec().shape, blurIntensity: 0 },
+		};
+
+		it("never blurs at zero intensity", () => {
+			engine.apply(spec("1", noBlur), typesetter);
+			engine.apply(spec("2", noBlur), typesetter);
 			expect(engine.blurActive).toBe(false);
 			for (let frame = 0; frame < 20; frame++) {
 				engine.tick(1 / 60);
@@ -443,7 +439,7 @@ describe("GlyphTransitionEngine", () => {
 		it("clears blur mid-transition when it is turned off", () => {
 			engine.apply(spec("1"), typesetter);
 			engine.apply(spec("2"), typesetter);
-			engine.apply(spec("2", { blurEnabled: false }), typesetter);
+			engine.apply(spec("2", noBlur), typesetter);
 			expect(engine.glyphs.every((glyph) => glyph.blur.value === 0)).toBe(true);
 		});
 	});

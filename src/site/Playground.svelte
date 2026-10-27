@@ -10,7 +10,6 @@
 		bounce: 0.46,
 		enterScale: 0.4,
 		travel: 1 / 3,
-		blur: true,
 		blurIntensity: 1,
 		clip: true,
 		monospacedDigits: false,
@@ -27,7 +26,6 @@
 	let bounce = $state(DEFAULTS.bounce);
 	let enterScale = $state(DEFAULTS.enterScale);
 	let travel = $state(DEFAULTS.travel);
-	let blur = $state(DEFAULTS.blur);
 	let blurIntensity = $state(DEFAULTS.blurIntensity);
 	let clip = $state(DEFAULTS.clip);
 	// On by default here, since the demo values are numbers; the library leaves it off.
@@ -64,7 +62,6 @@
 			bounce === DEFAULTS.bounce &&
 			enterScale === DEFAULTS.enterScale &&
 			travelIsDefault &&
-			blur === DEFAULTS.blur &&
 			blurIntensity === DEFAULTS.blurIntensity &&
 			clip === DEFAULTS.clip &&
 			monospacedDigits,
@@ -72,16 +69,8 @@
 
 	function reset() {
 		value = INITIAL_VALUE;
-		({
-			direction,
-			duration,
-			bounce,
-			enterScale,
-			travel,
-			blur,
-			blurIntensity,
-			clip,
-		} = DEFAULTS);
+		({ direction, duration, bounce, enterScale, travel, blurIntensity, clip } =
+			DEFAULTS);
 		monospacedDigits = true;
 	}
 
@@ -96,9 +85,7 @@
 			bounce !== DEFAULTS.bounce && `\tbounce={${bounce}}`,
 			enterScale !== DEFAULTS.enterScale && `\tenterScale={${enterScale}}`,
 			!travelIsDefault && `\ttravel={${round(travel)}}`,
-			!blur && "\tblur={false}",
-			blur &&
-				blurIntensity !== DEFAULTS.blurIntensity &&
+			blurIntensity !== DEFAULTS.blurIntensity &&
 				`\tblurIntensity={${blurIntensity}}`,
 			!clip && "\tclip={false}",
 			monospacedDigits && "\tmonospacedDigits",
@@ -118,7 +105,6 @@
 			{bounce}
 			{enterScale}
 			{travel}
-			{blur}
 			{blurIntensity}
 			{clip}
 			{monospacedDigits}
@@ -169,20 +155,9 @@
 		</label>
 		<label class="range">
 			<span>blurIntensity <output>{blurIntensity}</output></span>
-			<input
-				type="range"
-				min="0"
-				max="8"
-				step="0.1"
-				bind:value={blurIntensity}
-				disabled={!blur}
-			/>
+			<input type="range" min="0" max="8" step="0.1" bind:value={blurIntensity} />
 		</label>
 		<div class="checkboxes">
-			<label class="checkbox">
-				<input type="checkbox" bind:checked={blur} />
-				<span>blur</span>
-			</label>
 			<label class="checkbox">
 				<input type="checkbox" bind:checked={clip} />
 				<span>clip</span>

@@ -83,18 +83,11 @@
 				"How far a glyph rolls, as a fraction of the line height. Clamped to `0`–`3`; `0` leaves only scale and fade.",
 		},
 		{
-			name: "blur",
-			type: "boolean",
-			default: "true",
-			description:
-				"Blurs each glyph in proportion to how far through its transition it is.",
-		},
-		{
 			name: "blurIntensity",
 			type: "number",
 			default: "1",
 			description:
-				"Multiplies the blur radii, which are derived from the line height. Clamped to `0`–`8`; `0` is the same as `blur={false}`.",
+				"Blurs each glyph in proportion to how far through its transition it is, multiplying radii derived from the line height. Clamped to `0`–`8`; `0` turns blur off.",
 		},
 		{
 			name: "maxBlurRadius",

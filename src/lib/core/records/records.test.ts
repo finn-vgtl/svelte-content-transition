@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 import { NumericTextAlignment, TransitionDirection } from "../enums";
 import {
 	createNumericTextSpec,
-	effectiveShape,
 	isBlurActive,
 	isDigitUnit,
 	type NumericTextSpec,
@@ -31,34 +30,18 @@ describe("createNumericTextSpec", () => {
 	});
 });
 
-describe("isBlurActive / effectiveShape", () => {
-	const spec = (
-		blurEnabled: boolean,
-		blurIntensity: number,
-	): NumericTextSpec => {
+describe("isBlurActive", () => {
+	const spec = (blurIntensity: number): NumericTextSpec => {
 		const base = createNumericTextSpec();
-		return { ...base, blurEnabled, shape: { ...base.shape, blurIntensity } };
+		return { ...base, shape: { ...base.shape, blurIntensity } };
 	};
 
-	it("is active when enabled with a positive intensity", () => {
-		expect(isBlurActive(spec(true, 1))).toBe(true);
-		expect(effectiveShape(spec(true, 2)).blurIntensity).toBe(2);
-	});
-
-	it("is inactive when disabled, whatever the intensity", () => {
-		expect(isBlurActive(spec(false, 3))).toBe(false);
-		expect(effectiveShape(spec(false, 3)).blurIntensity).toBe(0);
+	it("is active with a positive intensity", () => {
+		expect(isBlurActive(spec(1))).toBe(true);
 	});
 
 	it("is inactive at zero intensity", () => {
-		expect(isBlurActive(spec(true, 0))).toBe(false);
-	});
-
-	it("keeps the rest of the shape and does not mutate the spec", () => {
-		const disabled = spec(false, 3);
-		const shape = effectiveShape(disabled);
-		expect(shape).toEqual({ ...disabled.shape, blurIntensity: 0 });
-		expect(disabled.shape.blurIntensity).toBe(3);
+		expect(isBlurActive(spec(0))).toBe(false);
 	});
 });
 
@@ -74,7 +57,6 @@ describe("specsEqual", () => {
 		["alignment", (spec) => (spec.alignment = NumericTextAlignment.Center)],
 		["direction", (spec) => (spec.direction = TransitionDirection.Down)],
 		["decimalSeparator", (spec) => (spec.decimalSeparator = ",")],
-		["blurEnabled", (spec) => (spec.blurEnabled = false)],
 		["clipEnabled", (spec) => (spec.clipEnabled = false)],
 		["animationsEnabled", (spec) => (spec.animationsEnabled = false)],
 		["duration", (spec) => (spec.duration = 1)],

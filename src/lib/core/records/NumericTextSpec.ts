@@ -10,7 +10,6 @@ interface NumericTextSpec {
 	alignment: NumericTextAlignment;
 	direction: TransitionDirection;
 	decimalSeparator: string;
-	blurEnabled: boolean;
 	shape: TransitionShape;
 	clipEnabled: boolean;
 	animationsEnabled: boolean;
@@ -23,7 +22,6 @@ const createNumericTextSpec = (): NumericTextSpec => ({
 	alignment: NumericTextAlignment.Leading,
 	direction: TransitionDirection.Auto,
 	decimalSeparator: ".",
-	blurEnabled: true,
 	shape: { ...TRANSITION_SHAPE_DEFAULTS },
 	clipEnabled: true,
 	animationsEnabled: true,
@@ -32,17 +30,13 @@ const createNumericTextSpec = (): NumericTextSpec => ({
 });
 
 const isBlurActive = (spec: NumericTextSpec): boolean =>
-	spec.blurEnabled && spec.shape.blurIntensity > 0;
-
-const effectiveShape = (spec: NumericTextSpec): TransitionShape =>
-	isBlurActive(spec) ? spec.shape : { ...spec.shape, blurIntensity: 0 };
+	spec.shape.blurIntensity > 0;
 
 const specsEqual = (lhs: NumericTextSpec, rhs: NumericTextSpec): boolean =>
 	lhs.text === rhs.text &&
 	lhs.alignment === rhs.alignment &&
 	lhs.direction === rhs.direction &&
 	lhs.decimalSeparator === rhs.decimalSeparator &&
-	lhs.blurEnabled === rhs.blurEnabled &&
 	lhs.clipEnabled === rhs.clipEnabled &&
 	lhs.animationsEnabled === rhs.animationsEnabled &&
 	lhs.duration === rhs.duration &&
@@ -53,4 +47,4 @@ const specsEqual = (lhs: NumericTextSpec, rhs: NumericTextSpec): boolean =>
 	lhs.shape.travelRatio === rhs.shape.travelRatio;
 
 export type { NumericTextSpec };
-export { createNumericTextSpec, effectiveShape, isBlurActive, specsEqual };
+export { createNumericTextSpec, isBlurActive, specsEqual };

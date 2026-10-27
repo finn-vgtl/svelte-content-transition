@@ -106,13 +106,13 @@ class GlyphState {
 		this.viewportHeight = Math.max(Math.ceil(line.height + this.padY * 2), 1);
 	}
 
-	beginAppear(countsDown: boolean, blurEnabled: boolean): void {
+	beginAppear(countsDown: boolean, blurActive: boolean): void {
 		const from = countsDown ? -1 : 1;
 		this.offset.reset(from, 0);
 		this.scale.reset(this.enterScale, 1);
 		this.alpha.reset(0, 1);
 		this.blur.spring = this.blurIn;
-		this.blur.reset(blurEnabled ? this.appearBlur : 0, 0);
+		this.blur.reset(blurActive ? this.appearBlur : 0, 0);
 		this.disappearing = false;
 	}
 
@@ -125,13 +125,13 @@ class GlyphState {
 		this.disappearing = false;
 	}
 
-	beginDisappear(countsDown: boolean, blurEnabled: boolean): void {
+	beginDisappear(countsDown: boolean, blurActive: boolean): void {
 		const to = countsDown ? 1 : -1;
 		this.offset.retarget(to);
 		this.scale.retarget(this.enterScale);
 		this.alpha.retarget(0);
 		this.blur.spring = this.blurOut;
-		this.blur.retarget(blurEnabled ? this.disappearBlur : 0);
+		this.blur.retarget(blurActive ? this.disappearBlur : 0);
 		this.disappearing = true;
 	}
 

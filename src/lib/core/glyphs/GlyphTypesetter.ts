@@ -56,8 +56,12 @@ const acquireMeasureElement = (): HTMLSpanElement | null => {
 
 class GlyphTypesetter {
 	readonly fontStyle: GlyphFontStyle;
-	private readonly styleKey: string;
-	private fingerprint: string | null = null;
+	/**
+	 * The computed style plus the rendered size of a probe string. The size is taken up front: a web
+	 * font that loads later changes it without changing the computed style, and a key taken lazily
+	 * after the load would compare equal to the typesetter that replaces it.
+	 */
+	readonly key: string;
 
 	/** Typesets in whatever typography `source` resolves to through the cascade. */
 	static inheritingFrom(source: Element): GlyphTypesetter {
@@ -71,20 +75,16 @@ class GlyphTypesetter {
 
 	constructor(fontStyle: GlyphFontStyle) {
 		this.fontStyle = fontStyle;
-		this.styleKey = Object.values(fontStyle).join("|");
-	}
-
-	get key(): string {
-		if (this.fingerprint === null) {
-			const element = this.prepare();
-			if (!element) return this.styleKey;
-
-			element.textContent = FINGERPRINT_PROBE;
-			const { width, height } = element.getBoundingClientRect();
-			this.fingerprint = `${width.toFixed(3)}x${height.toFixed(3)}`;
+		const styleKey = Object.values(fontStyle).join("|");
+		const element = this.prepare();
+		if (!element) {
+			this.key = styleKey;
+			return;
 		}
 
-		return `${this.styleKey}|${this.fingerprint}`;
+		element.textContent = FINGERPRINT_PROBE;
+		const { width, height } = element.getBoundingClientRect();
+		this.key = `${styleKey}|${width.toFixed(3)}x${height.toFixed(3)}`;
 	}
 
 	equals(other: GlyphTypesetter): boolean {

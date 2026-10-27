@@ -6,6 +6,7 @@
 	import Countdown from "../site/examples/Countdown.svelte";
 	import Counter from "../site/examples/Counter.svelte";
 	import PriceTicker from "../site/examples/PriceTicker.svelte";
+	import Status from "../site/examples/Status.svelte";
 	import InstallCommand from "../site/InstallCommand.svelte";
 	import Playground from "../site/Playground.svelte";
 	import Seo from "../site/Seo.svelte";
@@ -15,6 +16,7 @@
 		COUNTDOWN_EXAMPLE,
 		PRICE_EXAMPLE,
 		QUICK_START,
+		STATUS_EXAMPLE,
 	} from "../site/snippets";
 
 	const features = [
@@ -63,6 +65,15 @@
 				"No bounce, no scale and a full line of travel give a mechanical, flip-counter feel.",
 			demo: Countdown,
 			code: COUNTDOWN_EXAMPLE,
+		},
+		{
+			id: "status",
+			title: "Status label",
+			file: "Status.svelte",
+			description:
+				'Any string works, not just numbers. Plain text is matched from the start, so the shared "Sav" stays put and only the ending rolls.',
+			demo: Status,
+			code: STATUS_EXAMPLE,
 		},
 	];
 

@@ -1,8 +1,8 @@
 const PACKAGE = "svelte-content-transition";
 
 const INSTALL_COMMANDS = {
-	pnpm: `pnpm add ${PACKAGE}`,
 	npm: `npm install ${PACKAGE}`,
+	pnpm: `pnpm add ${PACKAGE}`,
 	yarn: `yarn add ${PACKAGE}`,
 	bun: `bun add ${PACKAGE}`,
 } as const;

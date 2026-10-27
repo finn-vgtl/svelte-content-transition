@@ -4,7 +4,7 @@
 
 	const managers = Object.keys(INSTALL_COMMANDS) as PackageManager[];
 
-	let selected = $state<PackageManager>("pnpm");
+	let selected = $state<PackageManager>("npm");
 	const command = $derived(INSTALL_COMMANDS[selected]);
 </script>
 

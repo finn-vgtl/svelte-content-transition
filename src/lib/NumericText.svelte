@@ -133,4 +133,27 @@
 	role="img"
 	aria-label={text}
 	style="display: inline-block; position: relative; {sizeStyle} {style ?? ''}"
-></span>
+>
+	<!--
+		Plain copy of the value, styled like the typesetter's measuring element. It sizes the host and
+		shows the value before the glyphs mount (SSR, no JS), then stays hidden in flow so the host
+		keeps a text baseline when it sits inline.
+	-->
+	<span
+		aria-hidden="true"
+		style:display="block"
+		style:visibility={contentSize ? "hidden" : null}
+		style:white-space="pre"
+		style:line-height="normal"
+		style:font-kerning="normal"
+		style:direction="ltr"
+		style:color={color}
+		style:font-family={typesetter.fontStyle.fontFamily}
+		style:font-size={typesetter.fontStyle.fontSize}
+		style:font-weight={typesetter.fontStyle.fontWeight}
+		style:font-style={typesetter.fontStyle.fontStyle}
+		style:letter-spacing={typesetter.fontStyle.letterSpacing}
+		style:font-variant-numeric={typesetter.fontStyle.fontVariantNumeric}
+		>{text}</span
+	>
+</span>

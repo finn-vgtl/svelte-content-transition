@@ -1,0 +1,161 @@
+const PACKAGE = "svelte-content-transition";
+
+const INSTALL_COMMANDS = {
+	pnpm: `pnpm add ${PACKAGE}`,
+	npm: `npm install ${PACKAGE}`,
+	yarn: `yarn add ${PACKAGE}`,
+	bun: `bun add ${PACKAGE}`,
+} as const;
+
+type PackageManager = keyof typeof INSTALL_COMMANDS;
+
+const QUICK_START = `<script lang="ts">
+	import { NumericText } from "svelte-content-transition";
+
+	let count = $state(0);
+</script>
+
+<NumericText value={count} style="font-size: 48px" monospacedDigits />
+
+<button onclick={() => count++}>Increment</button>`;
+
+const COUNTER_EXAMPLE = `<script lang="ts">
+	import { NumericText } from "svelte-content-transition";
+
+	let count = $state(1234);
+</script>
+
+<NumericText value={count} style="font-size: 56px; font-weight: 600" monospacedDigits />
+
+<button onclick={() => (count -= 1)}>−</button>
+<button onclick={() => (count += 1)}>+</button>`;
+
+const PRICE_EXAMPLE = `<script lang="ts">
+	import { NumericText } from "svelte-content-transition";
+
+	// Shared by the glyphs and the colour, so both settle together.
+	const duration = 420;
+
+	let price = $state(184.32);
+	let previous = $state(184.32);
+
+	$effect(() => {
+		const id = setInterval(() => {
+			previous = price;
+			price = Math.max(1, price + (Math.random() - 0.5) * 4);
+		}, 1600);
+		return () => clearInterval(id);
+	});
+
+	const formatter = new Intl.NumberFormat("en-US", {
+		style: "currency",
+		currency: "USD",
+	});
+</script>
+
+<NumericText
+	value={formatter.format(price)}
+	{duration}
+	style="font-size: 40px; font-weight: 600; color: {price >= previous ? '#16a34a' : '#dc2626'}; transition: color {duration}ms"
+	monospacedDigits
+/>`;
+
+const CLOCK_EXAMPLE = `<script lang="ts">
+	import { NumericText } from "svelte-content-transition";
+
+	const format = (date: Date) =>
+		date.toLocaleTimeString("en-GB", { hour12: false });
+
+	let time = $state(format(new Date()));
+
+	$effect(() => {
+		const id = setInterval(() => (time = format(new Date())), 1000);
+		return () => clearInterval(id);
+	});
+</script>
+
+<!-- A clock is not a number, so pin the direction. -->
+<NumericText value={time} direction="up" style="font-size: 40px" monospacedDigits />`;
+
+const COUNTDOWN_EXAMPLE = `<script lang="ts">
+	import { NumericText } from "svelte-content-transition";
+
+	let seconds = $state(10);
+
+	$effect(() => {
+		const id = setInterval(() => {
+			seconds = seconds === 0 ? 10 : seconds - 1;
+		}, 1000);
+		return () => clearInterval(id);
+	});
+</script>
+
+<NumericText
+	value={seconds}
+	direction="down"
+	bounce={0}
+	travel={1}
+	enterScale={1}
+	style="font-size: 56px; font-weight: 700"
+	monospacedDigits
+/>`;
+
+const TUNING_EXAMPLE = `<NumericText
+	value={value}
+	duration={700}
+	bounce={0.7}
+	travel={0.6}
+	enterScale={0.2}
+	blurIntensity={3}
+	maxBlurRadius={12}
+/>`;
+
+const TYPOGRAPHY_EXAMPLE = `<p class="distance">
+	<NumericText value="42,195 km" />
+</p>
+
+<style>
+	.distance {
+		font: italic 700 32px Georgia, serif;
+		letter-spacing: -0.5px;
+		color: rebeccapurple;
+	}
+</style>`;
+
+const FORMATTING_EXAMPLE = `<script lang="ts">
+	const euro = new Intl.NumberFormat("de-DE", {
+		style: "currency",
+		currency: "EUR",
+	});
+
+	let amount = $state(1299.5);
+</script>
+
+<!-- "1.299,50 €": align around the comma, not the dot. -->
+<NumericText value={euro.format(amount)} decimalSeparator="," monospacedDigits />`;
+
+const ATTRIBUTES_EXAMPLE = `<NumericText
+	value={score}
+	class="score"
+	style="vertical-align: middle"
+	data-testid="score"
+/>`;
+
+const STATIC_EXAMPLE = `<!-- Only animate after the user interacts. -->
+<NumericText value={total} animated={hasInteracted} />`;
+
+export type { PackageManager };
+export {
+	ATTRIBUTES_EXAMPLE,
+	CLOCK_EXAMPLE,
+	COUNTDOWN_EXAMPLE,
+	COUNTER_EXAMPLE,
+	FORMATTING_EXAMPLE,
+	INSTALL_COMMANDS,
+	PACKAGE,
+	PRICE_EXAMPLE,
+	QUICK_START,
+	STATIC_EXAMPLE,
+	TUNING_EXAMPLE,
+	TYPOGRAPHY_EXAMPLE,
+};

@@ -35,7 +35,7 @@ The first value renders without animation; every later change to `value` trigger
 - **Formatting** — the component animates whatever string it receives, so format with `Intl.NumberFormat`, `toFixed` or anything else first. Glyphs are aligned around the decimal separator, so `123.45 → 123.46` only animates the final digit.
 - **Typography** — there are no font props. Font, size, weight, letter spacing and colour are inherited from the surrounding CSS like any inline text.
 - **Direction** — `auto` rolls up when the number grows and down when it shrinks. Pin `"up"` or `"down"` for content that isn't a number, such as a clock.
-- **Accessibility** — the host has `role="img"` and an `aria-label` with the current value. Animation is disabled while `prefers-reduced-motion` is enabled.
+- **Accessibility** — the current value is real text in the host, hidden visually behind the glyphs, so screen readers read it in line with the surrounding content, and find in page and copy work. Animation is disabled while `prefers-reduced-motion` is enabled.
 - **SSR** — the value renders as plain text on the server and before hydration, with no layout shift.
 
 ## Props

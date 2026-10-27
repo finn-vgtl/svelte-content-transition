@@ -260,16 +260,18 @@
 	<h2 id="accessibility">Accessibility</h2>
 	<ul>
 		<li>
-			The host element has <code>role="img"</code> and an <code>aria-label</code> with the current
-			value, so screen readers announce the text once instead of glyph by glyph.
+			The current value is real text inside the host, transparent behind the animated glyphs.
+			Screen readers read it once, in line with the surrounding content, instead of glyph by
+			glyph, and find in page, translation and copy see the value too.
 		</li>
 		<li>
 			When the user has <code>prefers-reduced-motion</code> enabled, animation is turned off
 			regardless of the <code>animated</code> prop.
 		</li>
 		<li>
-			Value changes are not announced automatically. If an update matters to the user, wrap the
-			component in an element with <code>aria-live="polite"</code>.
+			Value changes are not announced automatically. If an update matters to the user, pass
+			<code>role="status"</code> to make the component a polite live region, or wrap it in an
+			element with <code>aria-live="polite"</code>.
 		</li>
 	</ul>
 </section>

@@ -109,20 +109,19 @@
 <span
 	{...rest}
 	bind:this={host}
-	role="img"
-	aria-label={text}
 	style="display: inline-block; position: relative; {sizeStyle} {style ?? ''}"
 	style:font-variant-numeric={monospacedDigits ? "tabular-nums" : undefined}
 >
 	<!--
 		Plain copy of the value in the inherited typography, laid out like the typesetter's measuring
 		element. It sizes the host and shows the value before the glyphs mount (SSR, no JS), then stays
-		hidden in flow so the host keeps a text baseline when it sits inline.
+		in flow so the host keeps a text baseline when it sits inline. Once the glyphs show, it turns
+		transparent rather than hidden, so it remains the text that screen readers, find in page and
+		copy see.
 	-->
 	<span
-		aria-hidden="true"
 		style:display="block"
-		style:visibility={contentSize ? "hidden" : null}
+		style:opacity={contentSize ? "0" : null}
 		style:white-space="pre"
 		style:line-height="normal"
 		style:direction="ltr">{text}</span

@@ -85,7 +85,7 @@ interface NumericTextTransitionProps {
 
 interface NumericTextProps
 	extends NumericTextTransitionProps,
-		Omit<HTMLAttributes<HTMLSpanElement>, "children" | "color" | "role"> {
+		Omit<HTMLAttributes<HTMLSpanElement>, "children" | "color"> {
 	/** The text to display. Measuring, diffing and animating all happen per glyph. */
 	value: string | number;
 	/**

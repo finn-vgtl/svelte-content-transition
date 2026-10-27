@@ -17,41 +17,61 @@ const FAST = { duration: 50 };
 
 const mount = async (props: NumericTextProps) => {
 	const screen = await render(NumericText, { props: { ...FAST, ...props } });
-	const host = screen.container.querySelector<HTMLElement>("[role='img']");
+	const host = screen.container.firstElementChild as HTMLElement | null;
 	if (!host) throw new Error("NumericText rendered no host");
 	// The glyph layer is attached by an effect after the first render.
 	await vi.waitFor(() => expect(glyphLayer(host)).not.toBeNull());
 	return { ...screen, host };
 };
 
-/** The plain-text copy of the value that sizes the host before the glyphs mount. */
+/** The plain-text copy of the value that sizes the host and carries its accessible text. */
 const fallbackOf = (host: HTMLElement): HTMLElement =>
-	host.querySelector(":scope > span[aria-hidden='true']") as HTMLElement;
+	host.querySelector(":scope > span") as HTMLElement;
 
 describe("NumericText", () => {
 	describe("accessibility", () => {
-		it("exposes the value as an image with a text label", async () => {
+		it("exposes the value as plain text, not an image", async () => {
 			const { host } = await mount({ value: "1,234" });
-			expect(host.getAttribute("role")).toBe("img");
-			expect(host.getAttribute("aria-label")).toBe("1,234");
+			expect(host.hasAttribute("role")).toBe(false);
+			expect(host.hasAttribute("aria-label")).toBe(false);
+			expect(fallbackOf(host).textContent).toBe("1,234");
+			expect(fallbackOf(host).hasAttribute("aria-hidden")).toBe(false);
 		});
 
-		it("labels a number value with its string form", async () => {
+		it("writes a number value in its string form", async () => {
 			const { host } = await mount({ value: 12.5 });
-			expect(host.getAttribute("aria-label")).toBe("12.5");
+			expect(fallbackOf(host).textContent).toBe("12.5");
 			expect(renderedText(host)).toBe("12.5");
 		});
 
-		it("hides the glyphs and the fallback text from assistive technology", async () => {
+		it("hides the glyphs from assistive technology", async () => {
 			const { host } = await mount({ value: 7 });
 			expect(glyphLayer(host)?.getAttribute("aria-hidden")).toBe("true");
-			expect(fallbackOf(host).getAttribute("aria-hidden")).toBe("true");
 		});
 
-		it("updates the label with the value", async () => {
+		it("keeps the fallback text accessible once the glyphs show", async () => {
+			const { host } = await mount({ value: 7 });
+			const fallback = fallbackOf(host);
+			await vi.waitFor(() => expect(fallback.style.opacity).toBe("0"));
+			expect(getComputedStyle(fallback).visibility).toBe("visible");
+		});
+
+		it("updates the text with the value", async () => {
 			const { host, rerender } = await mount({ value: 1 });
 			await rerender({ value: 2 });
-			expect(host.getAttribute("aria-label")).toBe("2");
+			expect(fallbackOf(host).textContent).toBe("2");
+		});
+
+		it("accepts a role, such as status for announced updates", async () => {
+			const { host } = await mount({ value: 1, role: "status" });
+			expect(host.getAttribute("role")).toBe("status");
+		});
+
+		it("copies the value once, without the glyphs", async () => {
+			const { host } = await mount({ value: "42" });
+			await waitForText(host, "42");
+			getSelection()?.selectAllChildren(host);
+			expect(getSelection()?.toString()).toBe("42");
 		});
 	});
 
@@ -62,11 +82,11 @@ describe("NumericText", () => {
 			expect(isSettled(host)).toBe(true);
 		});
 
-		it("hides the fallback text once the glyphs are measured", async () => {
+		it("makes the fallback text transparent once the glyphs are measured", async () => {
 			const { host } = await mount({ value: "42" });
 			const fallback = fallbackOf(host);
 			expect(fallback.textContent).toBe("42");
-			await vi.waitFor(() => expect(fallback.style.visibility).toBe("hidden"));
+			await vi.waitFor(() => expect(fallback.style.opacity).toBe("0"));
 		});
 
 		it("sizes the host to the measured content", async () => {
@@ -88,7 +108,7 @@ describe("NumericText", () => {
 		it("renders an empty value", async () => {
 			const { host } = await mount({ value: "" });
 			expect(glyphNodes(host)).toEqual([]);
-			expect(host.getAttribute("aria-label")).toBe("");
+			expect(fallbackOf(host).textContent).toBe("");
 		});
 
 		it("keeps the visible text left to right in right-to-left content", async () => {

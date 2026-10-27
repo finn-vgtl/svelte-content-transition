@@ -1,6 +1,6 @@
 {
 	"name": "svelte-content-transition",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "Animated per-glyph content transitions for Svelte 5, based on expo-content-transition.",
 	"license": "MIT",
 	"author": "Finn Voigtländer",

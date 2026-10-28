@@ -30,6 +30,7 @@
 	},
 	"files": [
 		"dist",
+		"CHANGELOG.md",
 		"!dist/**/*.test.*",
 		"!dist/**/*.spec.*"
 	],

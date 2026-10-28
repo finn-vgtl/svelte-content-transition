@@ -69,7 +69,10 @@ pnpm test      # browser tests via Vitest and Playwright
 pnpm check     # type-check
 pnpm lint      # Biome
 pnpm package   # build the library into dist/
+pnpm changelog # draft the next version's changelog entries
 ```
+
+See [CHANGELOG.md](CHANGELOG.md) for what changed in each release, including migration notes for breaking changes.
 
 ## License
 

@@ -8,6 +8,10 @@
 - Put breaking changes under `### Breaking changes` at the top of the version, each with a migration note (e.g. "Replace `blur={false}` with `blurIntensity={0}`").
 - Other groups, in this order: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, `Security`. Leave out empty groups.
 
+## Svelte peer range
+
+CI compiles the packaged components in `dist/` with the lowest Svelte version in the `svelte` peer range and checks that every name imported from `svelte` exists there (`pnpm package && pnpm check:svelte-floor`). When it fails, avoid the newer Svelte API, or raise the floor of the peer range. Raising the floor is a breaking change and needs a changelog entry with a migration note.
+
 ## Releases
 
 In the `chore(release): vX.Y.Z` commit, also update `CHANGELOG.md`:

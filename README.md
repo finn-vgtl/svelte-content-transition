@@ -69,6 +69,7 @@ pnpm test      # browser tests via Vitest and Playwright
 pnpm check     # type-check
 pnpm lint      # Biome
 pnpm package   # build the library into dist/
+pnpm check:svelte-floor # check dist/ against the lowest supported Svelte
 pnpm changelog # draft the next version's changelog entries
 ```
 

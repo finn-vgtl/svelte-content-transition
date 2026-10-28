@@ -4,6 +4,8 @@ All notable changes to `svelte-content-transition` are documented here. The form
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-28
+
 ### Breaking changes
 
 - The `blur` prop is removed. Replace `blur={false}` with `blurIntensity={0}`, and drop `blur={true}`, since blur is on by default.
@@ -49,7 +51,8 @@ All notable changes to `svelte-content-transition` are documented here. The form
 
 - `NumericText`, a Svelte 5 port of the web renderer from [expo-content-transition](https://github.com/rit3zh/expo-content-transition): per-glyph, spring-animated transitions for changing numbers and text.
 
-[Unreleased]: https://github.com/finn-vgtl/svelte-content-transition/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/finn-vgtl/svelte-content-transition/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/finn-vgtl/svelte-content-transition/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/finn-vgtl/svelte-content-transition/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/finn-vgtl/svelte-content-transition/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/finn-vgtl/svelte-content-transition/compare/v0.1.0...v0.2.0

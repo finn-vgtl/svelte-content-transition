@@ -4,6 +4,14 @@
 	"description": "Smooth per-glyph transitions for changing numbers and text in Svelte 5. Spring-animated, inherits your CSS typography.",
 	"license": "MIT",
 	"author": "Finn Voigtländer",
+	"homepage": "https://finn-vgtl.github.io/svelte-content-transition/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/finn-vgtl/svelte-content-transition.git"
+	},
+	"bugs": {
+		"url": "https://github.com/finn-vgtl/svelte-content-transition/issues"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run prepack",

@@ -1,0 +1,117 @@
+name: Release
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+
+# Each job is granted only what it needs.
+permissions: {}
+
+# Releases of the same tag never run side by side.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  TAG: ${{ github.ref_name }}
+
+jobs:
+  # Fails before anything is published when the tag or the changelog is wrong.
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.tag.outputs.version }}
+      notes: ${{ steps.notes.outputs.notes }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # Full history, to check that the tag is on main.
+          fetch-depth: 0
+
+      - name: Check the tag
+        id: tag
+        run: |
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main \
+            || { echo "::error::$TAG is not on main"; exit 1; }
+          version=$(node -p "require('./package.json').version")
+          [ "v$version" = "$TAG" ] \
+            || { echo "::error::$TAG does not match package.json version $version"; exit 1; }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Extract the release notes
+        id: notes
+        env:
+          VERSION: ${{ steps.tag.outputs.version }}
+        run: |
+          # The version's section of CHANGELOG.md, without its heading.
+          awk -v heading="## [$VERSION]" '
+            index($0, heading) == 1 { found = 1; next }
+            found && /^## \[/ { exit }
+            found && /^\[[^]]+\]: / { exit }
+            found { print }
+          ' CHANGELOG.md > "$RUNNER_TEMP/notes.md"
+          grep -q '[^[:space:]]' "$RUNNER_TEMP/notes.md" \
+            || { echo "::error::CHANGELOG.md has no section for $VERSION"; exit 1; }
+          delimiter="notes_$(openssl rand -hex 16)"
+          {
+            echo "notes<<$delimiter"
+            cat "$RUNNER_TEMP/notes.md"
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
+
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # npm trusted publishing
+    env:
+      VERSION: ${{ needs.verify.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+
+      # Reads the pnpm version from the packageManager field.
+      - uses: pnpm/action-setup@v6
+
+      # Node 24 ships npm 11, which trusted publishing needs (11.5.1 or later).
+      # No dependency cache: a poisoned cache would end up in the published package.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - run: pnpm install --frozen-lockfile
+
+      # The first version was published by hand, since npm only allows a trusted publisher on a
+      # package that already exists. Its tag still runs this workflow for the GitHub Release.
+      - name: Check whether the version is on npm
+        id: npm
+        run: |
+          if npm view "svelte-content-transition@$VERSION" version > /dev/null 2>&1; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # npm, not pnpm, for trusted publishing; prepack builds dist/ and runs publint.
+      # Trusted publishing adds provenance on its own.
+      - if: steps.npm.outputs.published != 'true'
+        run: npm publish
+
+  github-release:
+    needs: [verify, publish]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the GitHub Release
+    steps:
+      - name: Create the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          NOTES: ${{ needs.verify.outputs.notes }}
+        run: |
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            echo "The release for $TAG already exists"
+          else
+            printenv NOTES > "$RUNNER_TEMP/notes.md"
+            gh release create "$TAG" --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md" --verify-tag
+          fi

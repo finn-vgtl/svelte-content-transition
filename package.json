@@ -1,7 +1,7 @@
 {
 	"name": "svelte-content-transition",
 	"version": "0.3.0",
-	"description": "Animated per-glyph content transitions for Svelte 5, based on expo-content-transition.",
+	"description": "Smooth per-glyph transitions for changing numbers and text in Svelte 5. Spring-animated, inherits your CSS typography.",
 	"license": "MIT",
 	"author": "Finn Voigtländer",
 	"scripts": {
@@ -60,11 +60,18 @@
 		"vitest-browser-svelte": "3.1.0"
 	},
 	"keywords": [
+		"animation",
+		"component",
+		"content-transition",
+		"counter",
+		"number",
+		"numeric-text",
 		"svelte",
 		"svelte5",
-		"animation",
-		"content-transition",
-		"numeric-text"
+		"text-animation",
+		"ticker",
+		"transition",
+		"typescript"
 	],
 	"imports": {
 		"#lib": "./src/lib/index.js",

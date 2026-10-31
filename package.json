@@ -1,6 +1,6 @@
 {
 	"name": "svelte-content-transition",
-	"version": "0.4.0",
+	"version": "0.4.1",
 	"description": "Smooth per-glyph transitions for changing numbers and text in Svelte 5. Spring-animated, inherits your CSS typography.",
 	"license": "MIT",
 	"author": "Finn Voigtländer",

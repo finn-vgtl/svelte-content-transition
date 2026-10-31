@@ -71,6 +71,25 @@ const createProbe = (): HTMLSpanElement => {
 	return probe;
 };
 
+/**
+ * Zero-size box that clips the probe. A hidden element still counts towards its scroll container's
+ * overflow, so an unclipped probe wider than the viewport would make the page scroll sideways.
+ */
+const createProbeClip = (probe: HTMLSpanElement): HTMLSpanElement => {
+	const clip = document.createElement("span");
+	Object.assign(clip.style, {
+		position: "absolute",
+		left: "0",
+		top: "0",
+		display: "block",
+		width: "0",
+		height: "0",
+		overflow: "hidden",
+	} satisfies Partial<CSSStyleDeclaration>);
+	clip.appendChild(probe);
+	return clip;
+};
+
 const createGlyphNode = (unit: string): GlyphNode => {
 	const window = document.createElement("span");
 	Object.assign(window.style, {
@@ -142,7 +161,7 @@ class NumericTextLabel {
 			userSelect: "none",
 			direction: "ltr",
 		} satisfies Partial<CSSStyleDeclaration>);
-		this.root.appendChild(this.probe);
+		this.root.appendChild(createProbeClip(this.probe));
 		host.appendChild(this.root);
 
 		this.bounds = { width: host.clientWidth, height: host.clientHeight };

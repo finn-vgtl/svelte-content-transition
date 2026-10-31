@@ -4,6 +4,10 @@ All notable changes to `svelte-content-transition` are documented here. The form
 
 ## [Unreleased]
 
+### Fixed
+
+- `NumericText` no longer makes the page scroll sideways on narrow screens. A hidden element it uses to measure the font could stick out past the viewport, especially at large font sizes.
+
 ## [0.4.0] - 2026-10-28
 
 ### Breaking changes

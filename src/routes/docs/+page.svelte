@@ -6,6 +6,7 @@
 	import InstallCommand from "../../site/InstallCommand.svelte";
 	import PropTable, { type PropRow } from "../../site/PropTable.svelte";
 	import Seo from "../../site/Seo.svelte";
+	import { NPM_URL } from "../../site/site";
 	import {
 		ATTRIBUTES_EXAMPLE,
 		COUNTDOWN_EXAMPLE,
@@ -155,7 +156,10 @@
 
 <section>
 	<h2 id="installation">Installation</h2>
-	<p>Install the package with your package manager of choice. It requires Svelte <code>^5.7.0</code>.</p>
+	<p>
+		Install the <ExternalLink href={NPM_URL}>package from npm</ExternalLink> with your package manager
+		of choice. It requires Svelte <code>^5.7.0</code>.
+	</p>
 	<InstallCommand />
 </section>
 

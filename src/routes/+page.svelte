@@ -2,6 +2,7 @@
 	import { resolve } from "$app/paths";
 
 	import CodeBlock from "../site/CodeBlock.svelte";
+	import ExternalLink from "../site/ExternalLink.svelte";
 	import Clock from "../site/examples/Clock.svelte";
 	import Countdown from "../site/examples/Countdown.svelte";
 	import Counter from "../site/examples/Counter.svelte";
@@ -11,7 +12,7 @@
 	import InstallCommand from "../site/InstallCommand.svelte";
 	import Playground from "../site/Playground.svelte";
 	import Seo from "../site/Seo.svelte";
-	import { pageUrl, SITE_NAME } from "../site/site";
+	import { NPM_URL, pageUrl, REPOSITORY_URL, SITE_NAME } from "../site/site";
 	import {
 		CLOCK_EXAMPLE,
 		COUNTDOWN_EXAMPLE,
@@ -97,7 +98,8 @@
 		name: SITE_NAME,
 		description,
 		url: pageUrl("/"),
-		codeRepository: "https://github.com/finn-vgtl/svelte-content-transition",
+		codeRepository: REPOSITORY_URL,
+		sameAs: [NPM_URL],
 		programmingLanguage: ["TypeScript", "Svelte"],
 		runtimePlatform: "Svelte 5",
 		license: "https://opensource.org/licenses/MIT",
@@ -157,7 +159,10 @@
 				animates only what changed.
 			</p>
 			<ol class="steps">
-				<li>Install the package. It needs Svelte <code>^5.7.0</code>.</li>
+				<li>
+					Install the <ExternalLink href={NPM_URL}>package from npm</ExternalLink>. It needs Svelte
+					<code>^5.7.0</code>.
+				</li>
 				<li>Render <code>&lt;NumericText value=&#123;…&#125; /&gt;</code>.</li>
 				<li>
 					Style it with plain CSS, which it inherits like any text, and tune the motion with

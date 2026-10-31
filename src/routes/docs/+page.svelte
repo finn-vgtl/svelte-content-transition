@@ -143,14 +143,14 @@
 		the reverse. Unchanged glyphs slide into their new positions.
 	</p>
 	<p>
-		It is based on the web renderer from
-		<ExternalLink href="https://github.com/rit3zh/expo-content-transition"
-			>expo-content-transition</ExternalLink
-		>, with a Svelte-native API. The effect is inspired by SwiftUI's
+		The effect is inspired by SwiftUI's
 		<ExternalLink
 			href="https://developer.apple.com/documentation/swiftui/contenttransition/numerictext(value:)"
 			><code>ContentTransition.numericText(value:)</code></ExternalLink
-		>.
+		>, brought to the web. The implementation is based on the web renderer from
+		<ExternalLink href="https://github.com/rit3zh/expo-content-transition"
+			>expo-content-transition</ExternalLink
+		>, with a Svelte-native API.
 	</p>
 </section>
 

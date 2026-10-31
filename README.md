@@ -10,6 +10,8 @@ It is based on the web renderer from [expo-content-transition](https://github.co
 
 ## Installation
 
+Install the [package from npm](https://www.npmjs.com/package/svelte-content-transition):
+
 ```sh
 npm install svelte-content-transition
 ```

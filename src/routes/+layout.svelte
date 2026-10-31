@@ -6,11 +6,9 @@
 	import { page } from "$app/state";
 
 	import ExternalLink from "../site/ExternalLink.svelte";
+	import { NPM_URL, REPOSITORY_URL } from "../site/site";
 
 	let { children } = $props();
-
-	const REPOSITORY = "https://github.com/finn-vgtl/svelte-content-transition";
-	const NPM = "https://www.npmjs.com/package/svelte-content-transition";
 
 	const isDocs = $derived(page.route.id?.startsWith("/docs") ?? false);
 
@@ -35,7 +33,8 @@
 		<nav aria-label="Main">
 			<a href={resolve("/docs")} aria-current={isDocs ? "page" : undefined}>Docs</a>
 			<a href={resolve("/#examples")}>Examples</a>
-			<ExternalLink href={REPOSITORY}>GitHub</ExternalLink>
+			<ExternalLink href={NPM_URL}>npm</ExternalLink>
+			<ExternalLink href={REPOSITORY_URL}>GitHub</ExternalLink>
 		</nav>
 	</div>
 </header>
@@ -54,8 +53,8 @@
 		</p>
 		<nav aria-label="Footer">
 			<a href={resolve("/docs")}>Docs</a>
-			<ExternalLink href={NPM}>npm</ExternalLink>
-			<ExternalLink href={REPOSITORY}>GitHub</ExternalLink>
+			<ExternalLink href={NPM_URL}>npm</ExternalLink>
+			<ExternalLink href={REPOSITORY_URL}>GitHub</ExternalLink>
 		</nav>
 	</div>
 </footer>

@@ -16,10 +16,10 @@ interface GlyphNode {
 const glyphLayer = (host: HTMLElement): HTMLElement | null =>
 	host.querySelector(":scope > div[aria-hidden='true']");
 
-/** The glyph windows the label rendered, in reading order. The probe has no element children. */
+/** The glyph windows the label rendered, in reading order. The probe's clip comes first. */
 const glyphNodes = (host: HTMLElement): GlyphNode[] =>
-	[...(glyphLayer(host)?.children ?? [])]
-		.filter((child): child is HTMLElement => child.firstElementChild !== null)
+	([...(glyphLayer(host)?.children ?? [])] as HTMLElement[])
+		.slice(1)
 		.map((window) => {
 			const [, x, y] =
 				/translate\((-?[\d.]+)px, (-?[\d.]+)px\)/.exec(

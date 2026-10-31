@@ -4,6 +4,8 @@ All notable changes to `svelte-content-transition` are documented here. The form
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-10-31
+
 ### Fixed
 
 - `NumericText` no longer makes the page scroll sideways on narrow screens. A hidden element it uses to measure the font could stick out past the viewport, especially at large font sizes.
@@ -55,7 +57,8 @@ All notable changes to `svelte-content-transition` are documented here. The form
 
 - `NumericText`, a Svelte 5 port of the web renderer from [expo-content-transition](https://github.com/rit3zh/expo-content-transition): per-glyph, spring-animated transitions for changing numbers and text.
 
-[Unreleased]: https://github.com/finn-vgtl/svelte-content-transition/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/finn-vgtl/svelte-content-transition/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/finn-vgtl/svelte-content-transition/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/finn-vgtl/svelte-content-transition/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/finn-vgtl/svelte-content-transition/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/finn-vgtl/svelte-content-transition/compare/v0.2.0...v0.2.1

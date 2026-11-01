@@ -1,3 +1,20 @@
+<!--
+@component
+Renders a line of text and animates each glyph that changes when `value` changes: departing glyphs
+roll out, scale down, blur and fade, arriving glyphs do the reverse, and unchanged glyphs slide into
+place. The first value renders without animation.
+
+Works with any string, not just numbers. Font, size, weight and colour are inherited from the
+surrounding CSS.
+
+@example
+```svelte
+<RollingNumber value={count} style="font-size: 48px" monospacedDigits />
+```
+
+@see https://finn-vgtl.github.io/svelte-rolling-number
+-->
+
 <script lang="ts">
 	import { prefersReducedMotion } from "svelte/motion";
 

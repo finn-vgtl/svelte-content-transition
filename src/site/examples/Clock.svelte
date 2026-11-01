@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { NumericText } from "#lib";
+	import { RollingNumber } from "#lib";
 
 	const format = (date: Date) =>
 		date.toLocaleTimeString("en-GB", { hour12: false });
@@ -12,4 +12,4 @@
 	});
 </script>
 
-<NumericText value={time} direction="up" style="font-size: 40px" monospacedDigits />
+<RollingNumber value={time} direction="up" style="font-size: 40px" monospacedDigits />

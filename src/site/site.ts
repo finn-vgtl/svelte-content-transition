@@ -1,11 +1,11 @@
-const SITE_NAME = "svelte-content-transition";
+const SITE_NAME = "svelte-rolling-number";
 
 // Absolute URL of the deployed site, without a trailing slash. Canonical links, Open Graph tags and
 // the sitemap need absolute URLs, which the prerendered pages can't derive from the request.
-const SITE_URL = "https://finn-vgtl.github.io/svelte-content-transition";
+const SITE_URL = "https://finn-vgtl.github.io/svelte-rolling-number";
 
-const REPOSITORY_URL = "https://github.com/finn-vgtl/svelte-content-transition";
-const NPM_URL = "https://www.npmjs.com/package/svelte-content-transition";
+const REPOSITORY_URL = "https://github.com/finn-vgtl/svelte-rolling-number";
+const NPM_URL = "https://www.npmjs.com/package/svelte-rolling-number";
 
 // Every indexable page, as paths relative to SITE_URL.
 const PAGES = ["/", "/docs"] as const;

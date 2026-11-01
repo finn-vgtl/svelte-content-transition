@@ -13,7 +13,7 @@ export default defineConfig({
 			},
 
 			// Deployed to GitHub Pages as a static site. The workflow sets BASE_PATH to the repository
-			// path (e.g. /svelte-content-transition); locally the site is served from the root.
+			// path (e.g. /svelte-rolling-number); locally the site is served from the root.
 			adapter: adapter({ fallback: "404.html" }),
 			paths: {
 				base: (process.env.BASE_PATH ?? "") as "" | `/${string}`,

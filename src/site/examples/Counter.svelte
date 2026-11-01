@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { NumericText } from "#lib";
+	import { RollingNumber } from "#lib";
 
 	let count = $state(1234);
 </script>
 
 <div class="demo">
-	<NumericText value={count} style="font-size: 56px; font-weight: 600" monospacedDigits />
+	<RollingNumber value={count} style="font-size: 56px; font-weight: 600" monospacedDigits />
 	<div class="controls">
 		<button class="button" type="button" aria-label="Decrement" onclick={() => (count -= 1)}>−</button>
 		<button class="button" type="button" aria-label="Increment" onclick={() => (count += 1)}>+</button>

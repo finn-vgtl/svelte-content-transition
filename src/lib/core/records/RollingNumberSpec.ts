@@ -1,13 +1,13 @@
 import { TransitionSprings } from "../animation/TransitionSprings";
-import { NumericTextAlignment, TransitionDirection } from "../enums";
+import { RollingNumberAlignment, TransitionDirection } from "../enums";
 import {
 	TRANSITION_SHAPE_DEFAULTS,
 	type TransitionShape,
 } from "./TransitionShape";
 
-interface NumericTextSpec {
+interface RollingNumberSpec {
 	text: string;
-	alignment: NumericTextAlignment;
+	alignment: RollingNumberAlignment;
 	direction: TransitionDirection;
 	decimalSeparator: string;
 	shape: TransitionShape;
@@ -17,9 +17,9 @@ interface NumericTextSpec {
 	bounce: number;
 }
 
-const createNumericTextSpec = (): NumericTextSpec => ({
+const createRollingNumberSpec = (): RollingNumberSpec => ({
 	text: "",
-	alignment: NumericTextAlignment.Leading,
+	alignment: RollingNumberAlignment.Leading,
 	direction: TransitionDirection.Auto,
 	decimalSeparator: ".",
 	shape: { ...TRANSITION_SHAPE_DEFAULTS },
@@ -29,10 +29,10 @@ const createNumericTextSpec = (): NumericTextSpec => ({
 	bounce: TransitionSprings.DEFAULT_BOUNCE,
 });
 
-const isBlurActive = (spec: NumericTextSpec): boolean =>
+const isBlurActive = (spec: RollingNumberSpec): boolean =>
 	spec.shape.blurIntensity > 0;
 
-const specsEqual = (lhs: NumericTextSpec, rhs: NumericTextSpec): boolean =>
+const specsEqual = (lhs: RollingNumberSpec, rhs: RollingNumberSpec): boolean =>
 	lhs.text === rhs.text &&
 	lhs.alignment === rhs.alignment &&
 	lhs.direction === rhs.direction &&
@@ -46,5 +46,5 @@ const specsEqual = (lhs: NumericTextSpec, rhs: NumericTextSpec): boolean =>
 	lhs.shape.enterScale === rhs.shape.enterScale &&
 	lhs.shape.travelRatio === rhs.shape.travelRatio;
 
-export type { NumericTextSpec };
-export { createNumericTextSpec, isBlurActive, specsEqual };
+export type { RollingNumberSpec };
+export { createRollingNumberSpec, isBlurActive, specsEqual };

@@ -1,8 +1,8 @@
-export { default as NumericText } from "./NumericText.svelte";
+export { default as RollingNumber } from "./RollingNumber.svelte";
 
 export type {
-	NumericTextAlignment,
-	NumericTextDirection,
-	NumericTextProps,
-	NumericTextTransitionProps,
+	RollingNumberAlignment,
+	RollingNumberDirection,
+	RollingNumberProps,
+	RollingNumberTransitionProps,
 } from "./types";

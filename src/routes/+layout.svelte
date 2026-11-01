@@ -28,7 +28,7 @@
 	<div class="container inner">
 		<a class="brand" href={resolve("/")}>
 			<img src={asset("favicon.svg")} alt="" width="18" height="22" />
-			<span>svelte-content-transition</span>
+			<span>svelte-rolling-number</span>
 		</a>
 		<nav aria-label="Main">
 			<a href={resolve("/docs")} aria-current={isDocs ? "page" : undefined}>Docs</a>

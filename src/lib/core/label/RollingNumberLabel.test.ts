@@ -5,10 +5,10 @@ import {
 	isSettled,
 	renderedText,
 } from "../../../test/glyphNodes";
-import { NumericTextAlignment } from "../enums";
+import { RollingNumberAlignment } from "../enums";
 import type { ContentSize } from "../glyphs";
-import { createNumericTextSpec, type NumericTextSpec } from "../records";
-import { NumericTextLabel } from "./NumericTextLabel";
+import { createRollingNumberSpec, type RollingNumberSpec } from "../records";
+import { RollingNumberLabel } from "./RollingNumberLabel";
 
 const waitForSettle = (host: HTMLElement) =>
 	vi.waitFor(() => expect(isSettled(host)).toBe(true), { timeout: 3000 });
@@ -18,17 +18,17 @@ const FAST = { duration: 0.05 };
 
 const spec = (
 	text: string,
-	overrides: Partial<NumericTextSpec> = {},
-): NumericTextSpec => ({
-	...createNumericTextSpec(),
+	overrides: Partial<RollingNumberSpec> = {},
+): RollingNumberSpec => ({
+	...createRollingNumberSpec(),
 	...FAST,
 	text,
 	...overrides,
 });
 
-describe("NumericTextLabel", () => {
+describe("RollingNumberLabel", () => {
 	let host: HTMLElement;
-	let label: NumericTextLabel;
+	let label: RollingNumberLabel;
 	let sizes: ContentSize[];
 
 	beforeEach(() => {
@@ -38,7 +38,7 @@ describe("NumericTextLabel", () => {
 			"display: inline-block; position: relative; font: 20px monospace",
 		);
 		document.body.appendChild(host);
-		label = new NumericTextLabel(host);
+		label = new RollingNumberLabel(host);
 		sizes = [];
 		label.onContentSizeChange = (size) => sizes.push(size);
 	});
@@ -189,9 +189,9 @@ describe("NumericTextLabel", () => {
 	});
 
 	it.each([
-		[NumericTextAlignment.Leading, 0],
-		[NumericTextAlignment.Center, 100],
-		[NumericTextAlignment.Trailing, 200],
+		[RollingNumberAlignment.Leading, 0],
+		[RollingNumberAlignment.Center, 100],
+		[RollingNumberAlignment.Trailing, 200],
 	])("aligns a %s line inside wider bounds", async (alignment, anchor) => {
 		label.update(spec("1", { alignment }));
 		host.style.width = "200px";
@@ -204,9 +204,9 @@ describe("NumericTextLabel", () => {
 			const hostLeft = host.getBoundingClientRect().left;
 			const width = Number.parseFloat(content.style.width);
 			const expected =
-				alignment === NumericTextAlignment.Leading
+				alignment === RollingNumberAlignment.Leading
 					? anchor
-					: alignment === NumericTextAlignment.Center
+					: alignment === RollingNumberAlignment.Center
 						? anchor - width / 2
 						: anchor - width;
 			expect(glyphLeft - hostLeft).toBeCloseTo(expected, 0);

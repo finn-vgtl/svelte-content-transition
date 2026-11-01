@@ -88,7 +88,7 @@ jobs:
       - name: Check whether the version is on npm
         id: npm
         run: |
-          if npm view "svelte-content-transition@$VERSION" version > /dev/null 2>&1; then
+          if npm view "svelte-rolling-number@$VERSION" version > /dev/null 2>&1; then
             echo "published=true" >> "$GITHUB_OUTPUT"
           fi
 

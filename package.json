@@ -1,16 +1,16 @@
 {
-	"name": "svelte-content-transition",
+	"name": "svelte-rolling-number",
 	"version": "0.4.1",
-	"description": "Smooth per-glyph transitions for changing numbers and text in Svelte 5. Spring-animated, inherits your CSS typography.",
+	"description": "Rolling number animation for Svelte 5, like SwiftUI's numericText content transition. Per-glyph, spring-animated, inherits your CSS typography.",
 	"license": "MIT",
 	"author": "Finn Voigtländer",
-	"homepage": "https://finn-vgtl.github.io/svelte-content-transition/",
+	"homepage": "https://finn-vgtl.github.io/svelte-rolling-number/",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/finn-vgtl/svelte-content-transition.git"
+		"url": "git+https://github.com/finn-vgtl/svelte-rolling-number.git"
 	},
 	"bugs": {
-		"url": "https://github.com/finn-vgtl/svelte-content-transition/issues"
+		"url": "https://github.com/finn-vgtl/svelte-rolling-number/issues"
 	},
 	"scripts": {
 		"dev": "vite dev",
@@ -75,14 +75,20 @@
 		"vitest-browser-svelte": "3.1.0"
 	},
 	"keywords": [
+		"animated-number",
 		"animation",
 		"component",
 		"content-transition",
 		"counter",
+		"digit-roll",
 		"number",
+		"number-animation",
 		"numeric-text",
+		"numerictext",
+		"rolling-number",
 		"svelte",
 		"svelte5",
+		"swiftui",
 		"text-animation",
 		"ticker",
 		"transition",

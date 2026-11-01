@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { NumericTextAlignment, TransitionDirection } from "../enums";
+import { RollingNumberAlignment, TransitionDirection } from "../enums";
 import {
-	createNumericTextSpec,
+	createRollingNumberSpec,
 	isBlurActive,
 	isDigitUnit,
-	type NumericTextSpec,
+	type RollingNumberSpec,
 	specsEqual,
 	TRANSITION_SHAPE_DEFAULTS,
 } from ".";
@@ -20,19 +20,19 @@ describe("isDigitUnit", () => {
 	});
 });
 
-describe("createNumericTextSpec", () => {
+describe("createRollingNumberSpec", () => {
 	it("does not share the shape between specs", () => {
-		const spec = createNumericTextSpec();
+		const spec = createRollingNumberSpec();
 		spec.shape.enterScale = 2;
-		expect(createNumericTextSpec().shape.enterScale).toBe(
+		expect(createRollingNumberSpec().shape.enterScale).toBe(
 			TRANSITION_SHAPE_DEFAULTS.enterScale,
 		);
 	});
 });
 
 describe("isBlurActive", () => {
-	const spec = (blurIntensity: number): NumericTextSpec => {
-		const base = createNumericTextSpec();
+	const spec = (blurIntensity: number): RollingNumberSpec => {
+		const base = createRollingNumberSpec();
 		return { ...base, shape: { ...base.shape, blurIntensity } };
 	};
 
@@ -47,14 +47,14 @@ describe("isBlurActive", () => {
 
 describe("specsEqual", () => {
 	it("is true for structurally equal specs", () => {
-		expect(specsEqual(createNumericTextSpec(), createNumericTextSpec())).toBe(
-			true,
-		);
+		expect(
+			specsEqual(createRollingNumberSpec(), createRollingNumberSpec()),
+		).toBe(true);
 	});
 
-	const changes: [string, (spec: NumericTextSpec) => void][] = [
+	const changes: [string, (spec: RollingNumberSpec) => void][] = [
 		["text", (spec) => (spec.text = "1")],
-		["alignment", (spec) => (spec.alignment = NumericTextAlignment.Center)],
+		["alignment", (spec) => (spec.alignment = RollingNumberAlignment.Center)],
 		["direction", (spec) => (spec.direction = TransitionDirection.Down)],
 		["decimalSeparator", (spec) => (spec.decimalSeparator = ",")],
 		["clipEnabled", (spec) => (spec.clipEnabled = false)],
@@ -67,9 +67,9 @@ describe("specsEqual", () => {
 		["shape.travelRatio", (spec) => (spec.shape.travelRatio = 1)],
 	];
 
-	// A field that specsEqual skips makes NumericTextLabel ignore updates to it.
+	// A field that specsEqual skips makes RollingNumberLabel ignore updates to it.
 	it("covers every field of the spec", () => {
-		const { shape, ...rest } = createNumericTextSpec();
+		const { shape, ...rest } = createRollingNumberSpec();
 		const fields = [
 			...Object.keys(rest),
 			...Object.keys(shape).map((key) => `shape.${key}`),
@@ -78,9 +78,9 @@ describe("specsEqual", () => {
 	});
 
 	it.each(changes)("detects a change to %s", (_, change) => {
-		const changed = createNumericTextSpec();
+		const changed = createRollingNumberSpec();
 		change(changed);
-		expect(specsEqual(createNumericTextSpec(), changed)).toBe(false);
-		expect(specsEqual(changed, createNumericTextSpec())).toBe(false);
+		expect(specsEqual(createRollingNumberSpec(), changed)).toBe(false);
+		expect(specsEqual(changed, createRollingNumberSpec())).toBe(false);
 	});
 });

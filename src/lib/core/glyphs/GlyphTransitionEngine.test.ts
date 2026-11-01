@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { NumericTextAlignment, TransitionDirection } from "../enums";
+import { RollingNumberAlignment, TransitionDirection } from "../enums";
 import {
-	createNumericTextSpec,
-	type NumericTextSpec,
+	createRollingNumberSpec,
+	type RollingNumberSpec,
 	slotKey,
 	type TypesetLine,
 } from "../records";
@@ -44,8 +44,8 @@ const fixedWidthTypesetter = (key = "fixed"): GlyphTypesetter => {
 
 const spec = (
 	text: string,
-	overrides: Partial<NumericTextSpec> = {},
-): NumericTextSpec => ({ ...createNumericTextSpec(), text, ...overrides });
+	overrides: Partial<RollingNumberSpec> = {},
+): RollingNumberSpec => ({ ...createRollingNumberSpec(), text, ...overrides });
 
 const settle = (engine: GlyphTransitionEngine): number => {
 	let frames = 0;
@@ -375,9 +375,9 @@ describe("GlyphTransitionEngine", () => {
 
 	describe("alignment", () => {
 		it.each([
-			[NumericTextAlignment.Leading, [0, 10], 0],
-			[NumericTextAlignment.Center, [-10, 0], 50],
-			[NumericTextAlignment.Trailing, [-20, -10], 100],
+			[RollingNumberAlignment.Leading, [0, 10], 0],
+			[RollingNumberAlignment.Center, [-10, 0], 50],
+			[RollingNumberAlignment.Trailing, [-20, -10], 100],
 		])("positions %s glyphs relative to the anchor", (alignment, xs, base) => {
 			engine.apply(spec("12", { alignment }), typesetter);
 			expect(engine.glyphs.map((glyph) => glyph.x.value)).toEqual(xs);
@@ -421,7 +421,7 @@ describe("GlyphTransitionEngine", () => {
 		});
 
 		const noBlur = {
-			shape: { ...createNumericTextSpec().shape, blurIntensity: 0 },
+			shape: { ...createRollingNumberSpec().shape, blurIntensity: 0 },
 		};
 
 		it("never blurs at zero intensity", () => {

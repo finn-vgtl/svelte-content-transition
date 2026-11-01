@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { NumericText } from "#lib";
+	import { RollingNumber } from "#lib";
 
 	const steps = ["Save", "Saving…", "Saved"];
 
@@ -13,4 +13,4 @@
 	});
 </script>
 
-<NumericText value={steps[index]} direction="up" style="font-size: 40px; font-weight: 600" />
+<RollingNumber value={steps[index]} direction="up" style="font-size: 40px; font-weight: 600" />

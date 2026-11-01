@@ -1,7 +1,7 @@
 import { expect, vi } from "vitest";
 
 /**
- * Helpers for reading back what NumericTextLabel rendered. They live outside src/lib so that
+ * Helpers for reading back what RollingNumberLabel rendered. They live outside src/lib so that
  * svelte-package does not ship them.
  */
 

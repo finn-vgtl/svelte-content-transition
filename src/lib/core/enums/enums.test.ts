@@ -3,15 +3,15 @@ import { describe, expect, it } from "vitest";
 import {
 	alignmentFromProp,
 	directionFromProp,
-	NumericTextAlignment,
+	RollingNumberAlignment,
 	TransitionDirection,
 } from ".";
 
 describe("alignmentFromProp", () => {
 	it.each([
-		["start", NumericTextAlignment.Leading],
-		["center", NumericTextAlignment.Center],
-		["end", NumericTextAlignment.Trailing],
+		["start", RollingNumberAlignment.Leading],
+		["center", RollingNumberAlignment.Center],
+		["end", RollingNumberAlignment.Trailing],
 	])("maps %s", (prop, alignment) => {
 		expect(alignmentFromProp(prop)).toBe(alignment);
 	});
@@ -19,7 +19,7 @@ describe("alignmentFromProp", () => {
 	it.each([undefined, null, "", "left", "CENTER"])(
 		"falls back to leading for %s",
 		(prop) => {
-			expect(alignmentFromProp(prop)).toBe(NumericTextAlignment.Leading);
+			expect(alignmentFromProp(prop)).toBe(RollingNumberAlignment.Leading);
 		},
 	);
 });

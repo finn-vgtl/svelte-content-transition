@@ -1,6 +1,6 @@
 {
 	"name": "svelte-rolling-number",
-	"version": "0.4.1",
+	"version": "0.5.0",
 	"description": "Rolling number and text animation for Svelte 5, like SwiftUI's numericText content transition. Per-glyph, spring-animated, inherits your CSS typography.",
 	"license": "MIT",
 	"author": "Finn Voigtländer",

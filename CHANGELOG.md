@@ -4,6 +4,8 @@ All notable changes to `svelte-rolling-number` are documented here. The format i
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-01
+
 ### Breaking changes
 
 - The package is renamed from `svelte-content-transition` to `svelte-rolling-number`, and its component from `NumericText` to `RollingNumber`. The exported types are renamed to match: `RollingNumberProps`, `RollingNumberTransitionProps`, `RollingNumberAlignment` and `RollingNumberDirection`. Behaviour and props are unchanged. Run `npm uninstall svelte-content-transition && npm install svelte-rolling-number`, then replace `import { NumericText } from "svelte-content-transition"` with `import { RollingNumber } from "svelte-rolling-number"` and rename `<NumericText>` to `<RollingNumber>` and any `NumericText*` type imports to `RollingNumber*`.
@@ -61,7 +63,8 @@ All notable changes to `svelte-rolling-number` are documented here. The format i
 
 - `NumericText`, a Svelte 5 port of the web renderer from [expo-content-transition](https://github.com/rit3zh/expo-content-transition): per-glyph, spring-animated transitions for changing numbers and text.
 
-[Unreleased]: https://github.com/finn-vgtl/svelte-rolling-number/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/finn-vgtl/svelte-rolling-number/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/finn-vgtl/svelte-rolling-number/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/finn-vgtl/svelte-rolling-number/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/finn-vgtl/svelte-rolling-number/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/finn-vgtl/svelte-rolling-number/compare/v0.2.1...v0.3.0

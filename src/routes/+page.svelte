@@ -9,6 +9,7 @@
 	import Inline from "../site/examples/Inline.svelte";
 	import PriceTicker from "../site/examples/PriceTicker.svelte";
 	import Status from "../site/examples/Status.svelte";
+	import Weather from "../site/examples/Weather.svelte";
 	import InstallCommand from "../site/InstallCommand.svelte";
 	import Playground from "../site/Playground.svelte";
 	import Seo from "../site/Seo.svelte";
@@ -20,12 +21,13 @@
 		PRICE_EXAMPLE,
 		QUICK_START,
 		STATUS_EXAMPLE,
+		WEATHER_EXAMPLE,
 	} from "../site/snippets";
 
 	const features = [
 		{
-			title: "Per-glyph diffing",
-			body: "Only the characters that change move. Values are aligned around the decimal separator, so 123.45 → 123.46 animates a single digit.",
+			title: "Per-glyph transitions",
+			body: "Only the characters that change move, in numbers, words and emoji alike. Numbers stay aligned on the decimal separator.",
 		},
 		{
 			title: "Spring-driven motion",
@@ -52,6 +54,15 @@
 			code: PRICE_EXAMPLE,
 		},
 		{
+			id: "status",
+			title: "Status label",
+			file: "Status.svelte",
+			description:
+				'Any string works, not just numbers. Plain text is matched from the start, so the shared "Sav" stays put and only the ending rolls.',
+			demo: Status,
+			code: STATUS_EXAMPLE,
+		},
+		{
 			id: "clock",
 			title: "Clock",
 			file: "Clock.svelte",
@@ -70,13 +81,13 @@
 			code: COUNTDOWN_EXAMPLE,
 		},
 		{
-			id: "status",
-			title: "Status label",
-			file: "Status.svelte",
+			id: "weather",
+			title: "Emoji",
+			file: "Weather.svelte",
 			description:
-				'Any string works, not just numbers. Plain text is matched from the start, so the shared "Sav" stays put and only the ending rolls.',
-			demo: Status,
-			code: STATUS_EXAMPLE,
+				"Glyphs are split into grapheme clusters, so an emoji built from several code points rolls as one piece and never breaks apart mid-transition.",
+			demo: Weather,
+			code: WEATHER_EXAMPLE,
 		},
 		{
 			id: "inline",
@@ -90,7 +101,7 @@
 	];
 
 	const description =
-		"A Svelte 5 component that animates numbers and text glyph by glyph with spring physics, blur and clipping. Built for prices, counters, clocks and scores.";
+		"A Svelte 5 component that animates numbers and text glyph by glyph with spring physics, blur and clipping. Built for prices, counters, clocks, scores and status labels.";
 
 	const structuredData = {
 		"@context": "https://schema.org",
@@ -120,8 +131,9 @@
 			<p class="eyebrow">Svelte 5 component</p>
 			<h1>Numbers that roll, not jump.</h1>
 			<p class="lead">
-				<code>RollingNumber</code> animates every changed glyph with springs, blur and clipping.
-				Drop it in wherever a value changes: prices, counters, clocks, scores.
+				<code>RollingNumber</code> animates every changed glyph of a number or a string with
+				springs, blur and clipping. Drop it in wherever a value changes: prices, counters, clocks,
+				scores, status labels.
 			</p>
 			<div class="actions">
 				<a class="button primary" href={resolve("/docs")}>Read the docs</a>

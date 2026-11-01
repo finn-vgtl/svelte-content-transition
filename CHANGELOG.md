@@ -4,6 +4,10 @@ All notable changes to `svelte-rolling-number` are documented here. The format i
 
 ## [Unreleased]
 
+### Added
+
+- Hovering `RollingNumber` in your editor now shows a short description of the component, a usage example and a link to the documentation.
+
 ## [0.5.0] - 2026-11-01
 
 ### Breaking changes

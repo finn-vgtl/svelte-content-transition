@@ -16,6 +16,7 @@ const DOC_SECTIONS: DocSection[] = [
 		title: "Guides",
 		items: [
 			{ id: "formatting", title: "Formatting values" },
+			{ id: "text", title: "Animating text" },
 			{ id: "direction", title: "Direction" },
 			{ id: "tuning-motion", title: "Tuning the motion" },
 			{ id: "typography", title: "Typography" },

@@ -118,6 +118,27 @@ const STATUS_EXAMPLE = `<script lang="ts">
 <!-- Text has no numeric order, so pin the direction. -->
 <RollingNumber value={steps[index]} direction="up" style="font-size: 40px; font-weight: 600" />`;
 
+const WEATHER_EXAMPLE = `<script lang="ts">
+	import { RollingNumber } from "svelte-rolling-number";
+
+	const forecast = ["☀️ Sunny", "⛅ Cloudy", "🌧️ Rainy", "❄️ Snowy"];
+
+	let index = $state(0);
+
+	$effect(() => {
+		const id = setInterval(() => {
+			index = (index + 1) % forecast.length;
+		}, 1600);
+		return () => clearInterval(id);
+	});
+</script>
+
+<!-- Each emoji is one glyph, even when it is several code points. -->
+<RollingNumber value={forecast[index]} direction="up" style="font-size: 40px; font-weight: 600" />`;
+
+const TEXT_EXAMPLE = `<!-- Both labels start with "Sav", so only the ending rolls. -->
+<RollingNumber value={saving ? "Saving…" : "Saved"} direction="up" />`;
+
 const INLINE_EXAMPLE = `<script lang="ts">
 	import { RollingNumber } from "svelte-rolling-number";
 
@@ -196,6 +217,8 @@ export {
 	QUICK_START,
 	STATIC_EXAMPLE,
 	STATUS_EXAMPLE,
+	TEXT_EXAMPLE,
 	TUNING_EXAMPLE,
 	TYPOGRAPHY_EXAMPLE,
+	WEATHER_EXAMPLE,
 };

@@ -1,6 +1,6 @@
 # svelte-rolling-number
 
-Rolling number animation for Svelte 5, like SwiftUI's `.contentTransition(.numericText())`.
+Rolling number and text animation for Svelte 5, like SwiftUI's `.contentTransition(.numericText())`.
 
 `RollingNumber` renders a line of text and, whenever its value changes, animates each glyph that changed: departing glyphs roll out, scale down, blur and fade; arriving glyphs do the reverse. Unchanged glyphs slide into their new positions.
 
@@ -35,6 +35,7 @@ Requires Svelte `^5.7.0`.
 The first value renders without animation; every later change to `value` triggers a transition.
 
 - **Formatting** — the component animates whatever string it receives, so format with `Intl.NumberFormat`, `toFixed` or anything else first. Glyphs are aligned around the decimal separator, so `123.45 → 123.46` only animates the final digit.
+- **Text** — any string works, not just numbers. Plain text is matched from the start, so `Saving… → Saved` only rolls the ending, and an emoji rolls as one glyph. Matching is by position, so adding or removing glyphs before the end rolls everything after them.
 - **Typography** — there are no font props. Font, size, weight, letter spacing and colour are inherited from the surrounding CSS like any inline text.
 - **Direction** — `auto` rolls up when the number grows and down when it shrinks. Pin `"up"` or `"down"` for content that isn't a number, such as a clock.
 - **Accessibility** — the current value is real text in the host, hidden visually behind the glyphs, so screen readers read it in line with the surrounding content, and find in page and copy work. Animation is disabled while `prefers-reduced-motion` is enabled.

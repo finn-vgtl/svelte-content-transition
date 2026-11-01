@@ -13,6 +13,7 @@
 		FORMATTING_EXAMPLE,
 		QUICK_START,
 		STATIC_EXAMPLE,
+		TEXT_EXAMPLE,
 		TUNING_EXAMPLE,
 		TYPOGRAPHY_EXAMPLE,
 	} from "../../site/snippets";
@@ -123,7 +124,7 @@
 
 <Seo
 	title="Documentation · svelte-rolling-number"
-	description="Install svelte-rolling-number and learn the RollingNumber component: formatting, direction, motion tuning, accessibility, server rendering and the full prop reference."
+	description="Install svelte-rolling-number and learn the RollingNumber component: formatting, animating text, direction, motion tuning, accessibility, server rendering and the full prop reference."
 	path="/docs"
 />
 
@@ -192,6 +193,42 @@
 	<p>
 		Add <code>monospacedDigits</code> whenever the value is a number. Without it, a narrow
 		<code>1</code> turning into a wide <code>8</code> pushes every following glyph sideways.
+	</p>
+</section>
+
+<section>
+	<h2 id="text">Animating text</h2>
+	<p>
+		<code>value</code> can be any string, not just a number. Words, labels and emoji animate glyph
+		by glyph, the same way digits do:
+	</p>
+	<CodeBlock code={TEXT_EXAMPLE} title="SaveButton.svelte" />
+	<p>How old and new glyphs are paired depends on whether the value contains a digit:</p>
+	<ul>
+		<li>
+			<strong>Plain text</strong> is matched from the start. A glyph that stays the same at the same
+			position doesn't move, so <code>Save → Saved</code> only rolls in the <code>d</code>.
+		</li>
+		<li>
+			<strong>Text around a number</strong> is anchored to the number: text before it is matched
+			from the start, text after it from the end. <code>3 items → 12 items</code> keeps
+			<code>items</code> in place while the count changes.
+		</li>
+	</ul>
+	<p>
+		Matching is by position, not by searching for the text the two values share. Adding or removing
+		glyphs anywhere except the end shifts everything after them, so all of those glyphs roll:
+		<code>Saved → Unsaved</code> animates every glyph. Text works best when the values share their
+		start, like a label that moves through stages.
+	</p>
+	<p>
+		Each grapheme cluster is one glyph. An emoji, a flag or a letter with combining accents rolls as a
+		single piece, even when it is made of several code points.
+	</p>
+	<p>
+		Text has no numeric order, so <code>direction="auto"</code> can't tell which way to roll and
+		keeps the direction of the last change. Pin it to <code>"up"</code> or <code>"down"</code>.
+		<code>monospacedDigits</code> only affects digits, so it has no effect on letters.
 	</p>
 </section>
 

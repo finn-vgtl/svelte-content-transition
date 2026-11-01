@@ -9,16 +9,16 @@ import {
 	renderedText,
 	waitForText,
 } from "../test/glyphNodes";
-import NumericText from "./NumericText.svelte";
-import type { NumericTextProps } from "./types";
+import RollingNumber from "./RollingNumber.svelte";
+import type { RollingNumberProps } from "./types";
 
 // Short enough that every transition settles within a few frames of polling.
 const FAST = { duration: 50 };
 
-const mount = async (props: NumericTextProps) => {
-	const screen = await render(NumericText, { props: { ...FAST, ...props } });
+const mount = async (props: RollingNumberProps) => {
+	const screen = await render(RollingNumber, { props: { ...FAST, ...props } });
 	const host = screen.container.firstElementChild as HTMLElement | null;
-	if (!host) throw new Error("NumericText rendered no host");
+	if (!host) throw new Error("RollingNumber rendered no host");
 	// The glyph layer is attached by an effect after the first render.
 	await vi.waitFor(() => expect(glyphLayer(host)).not.toBeNull());
 	return { ...screen, host };
@@ -28,7 +28,7 @@ const mount = async (props: NumericTextProps) => {
 const fallbackOf = (host: HTMLElement): HTMLElement =>
 	host.querySelector(":scope > span") as HTMLElement;
 
-describe("NumericText", () => {
+describe("RollingNumber", () => {
 	describe("accessibility", () => {
 		it("exposes the value as plain text, not an image", async () => {
 			const { host } = await mount({ value: "1,234" });

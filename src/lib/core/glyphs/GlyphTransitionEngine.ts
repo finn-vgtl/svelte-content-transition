@@ -1,9 +1,9 @@
 import { SpringValue } from "../animation/SpringValue";
 import { TransitionSprings } from "../animation/TransitionSprings";
-import { NumericTextAlignment, TransitionDirection } from "../enums";
+import { RollingNumberAlignment, TransitionDirection } from "../enums";
 import {
 	isBlurActive,
-	type NumericTextSpec,
+	type RollingNumberSpec,
 	slotKey,
 	type TransitionShape,
 	type TypesetLine,
@@ -20,7 +20,7 @@ interface ContentSize {
 class GlyphTransitionEngine {
 	glyphs: GlyphState[] = [];
 	contentSize: ContentSize = { width: 0, height: 0 };
-	alignment: NumericTextAlignment = NumericTextAlignment.Leading;
+	alignment: RollingNumberAlignment = RollingNumberAlignment.Leading;
 	blurActive = true;
 	clipEnabled = true;
 
@@ -42,7 +42,7 @@ class GlyphTransitionEngine {
 	private nextId = 0;
 	private lastTypesetter: GlyphTypesetter | null = null;
 
-	apply(spec: NumericTextSpec, typesetter: GlyphTypesetter): void {
+	apply(spec: RollingNumberSpec, typesetter: GlyphTypesetter): void {
 		const typographyChanged =
 			this.lastTypesetter !== null && !this.lastTypesetter.equals(typesetter);
 		this.lastTypesetter = typesetter;
@@ -126,9 +126,9 @@ class GlyphTransitionEngine {
 
 	anchorBase(layoutWidth: number): number {
 		switch (this.alignment) {
-			case NumericTextAlignment.Center:
+			case RollingNumberAlignment.Center:
 				return layoutWidth / 2;
-			case NumericTextAlignment.Trailing:
+			case RollingNumberAlignment.Trailing:
 				return layoutWidth;
 			default:
 				return 0;
@@ -249,7 +249,7 @@ class GlyphTransitionEngine {
 		}
 	}
 
-	private resolveDirection(spec: NumericTextSpec): boolean {
+	private resolveDirection(spec: RollingNumberSpec): boolean {
 		switch (spec.direction) {
 			case TransitionDirection.Up:
 				return false;
@@ -267,9 +267,9 @@ class GlyphTransitionEngine {
 
 	private anchoredX(x: number, lineWidth: number): number {
 		switch (this.alignment) {
-			case NumericTextAlignment.Center:
+			case RollingNumberAlignment.Center:
 				return x - lineWidth / 2;
-			case NumericTextAlignment.Trailing:
+			case RollingNumberAlignment.Trailing:
 				return x - lineWidth;
 			default:
 				return x;

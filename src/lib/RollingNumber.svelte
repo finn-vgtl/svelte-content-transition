@@ -4,12 +4,12 @@
 	import { TransitionSprings } from "./core/animation/TransitionSprings";
 	import { alignmentFromProp, directionFromProp } from "./core/enums";
 	import type { ContentSize } from "./core/glyphs";
-	import { NumericTextLabel } from "./core/label/NumericTextLabel";
+	import { RollingNumberLabel } from "./core/label/RollingNumberLabel";
 	import {
-		type NumericTextSpec,
+		type RollingNumberSpec,
 		TRANSITION_SHAPE_DEFAULTS,
 	} from "./core/records";
-	import type { NumericTextProps } from "./types";
+	import type { RollingNumberProps } from "./types";
 
 	const MAX_BLUR_INTENSITY = 8;
 	const MAX_ENTER_SCALE = 2;
@@ -36,15 +36,15 @@
 		monospacedDigits,
 		style,
 		...rest
-	}: NumericTextProps = $props();
+	}: RollingNumberProps = $props();
 
 	let host = $state<HTMLSpanElement>();
-	let label = $state.raw<NumericTextLabel | null>(null);
+	let label = $state.raw<RollingNumberLabel | null>(null);
 	let contentSize = $state.raw<ContentSize | null>(null);
 
 	const text = $derived(typeof value === "number" ? String(value) : value);
 
-	const spec: NumericTextSpec = $derived({
+	const spec: RollingNumberSpec = $derived({
 		text,
 		alignment: alignmentFromProp(alignment),
 		direction: directionFromProp(direction),
@@ -89,7 +89,7 @@
 	$effect(() => {
 		if (!host) return;
 
-		const instance = new NumericTextLabel(host);
+		const instance = new RollingNumberLabel(host);
 		instance.onContentSizeChange = (size) => (contentSize = size);
 		label = instance;
 

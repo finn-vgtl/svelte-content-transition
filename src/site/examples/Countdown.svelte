@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { NumericText } from "#lib";
+	import { RollingNumber } from "#lib";
 
 	let seconds = $state(10);
 
@@ -11,7 +11,7 @@
 	});
 </script>
 
-<NumericText
+<RollingNumber
 	value={seconds}
 	direction="down"
 	bounce={0}

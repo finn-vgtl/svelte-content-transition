@@ -6,8 +6,8 @@ import {
 } from "../glyphs";
 import { FINGERPRINT_PROBE, GlyphTypesetter } from "../glyphs/GlyphTypesetter";
 import {
-	createNumericTextSpec,
-	type NumericTextSpec,
+	createRollingNumberSpec,
+	type RollingNumberSpec,
 	specsEqual,
 } from "../records";
 
@@ -130,7 +130,7 @@ const createGlyphNode = (unit: string): GlyphNode => {
 	};
 };
 
-class NumericTextLabel {
+class RollingNumberLabel {
 	onContentSizeChange: ((size: ContentSize) => void) | null = null;
 
 	private readonly engine = new GlyphTransitionEngine();
@@ -144,7 +144,7 @@ class NumericTextLabel {
 	private lastTimestamp = 0;
 	private reportedSize: ContentSize | null = null;
 
-	private spec: NumericTextSpec = createNumericTextSpec();
+	private spec: RollingNumberSpec = createRollingNumberSpec();
 	private typesetter: GlyphTypesetter | null = null;
 
 	constructor(private readonly host: HTMLElement) {
@@ -179,7 +179,7 @@ class NumericTextLabel {
 		}
 	}
 
-	update(spec: NumericTextSpec): void {
+	update(spec: RollingNumberSpec): void {
 		const typesetter = GlyphTypesetter.inheritingFrom(this.probe);
 		if (this.typesetter?.equals(typesetter) && specsEqual(spec, this.spec))
 			return;
@@ -201,7 +201,7 @@ class NumericTextLabel {
 		if (!typesetter.equals(this.typesetter)) this.apply(this.spec, typesetter);
 	}
 
-	private apply(spec: NumericTextSpec, typesetter: GlyphTypesetter): void {
+	private apply(spec: RollingNumberSpec, typesetter: GlyphTypesetter): void {
 		this.typesetter = typesetter;
 		this.spec = spec;
 
@@ -370,4 +370,4 @@ class NumericTextLabel {
 	};
 }
 
-export { NumericTextLabel };
+export { RollingNumberLabel };

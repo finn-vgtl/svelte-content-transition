@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { NumericText } from "#lib";
+	import { RollingNumber } from "#lib";
 
 	let readers = $state(97);
 
@@ -13,7 +13,7 @@
 </script>
 
 <p class="sentence">
-	Right now, <NumericText value={readers} style="font-weight: 600" /> people are reading this page,
+	Right now, <RollingNumber value={readers} style="font-weight: 600" /> people are reading this page,
 	and the sentence makes room as the count grows.
 </p>
 

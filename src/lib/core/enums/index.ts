@@ -1,3 +1,3 @@
-export * from "./NumericTextAlignment";
+export * from "./RollingNumberAlignment";
 export * from "./SlotRole";
 export * from "./TransitionDirection";

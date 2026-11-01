@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { createNumericTextSpec, type NumericTextSpec } from "../records";
+import { createRollingNumberSpec, type RollingNumberSpec } from "../records";
 import { GlyphTransitionEngine } from "./GlyphTransitionEngine";
 import { GlyphTypesetter } from "./GlyphTypesetter";
 
@@ -14,8 +14,8 @@ describe("GlyphTransitionEngine with GlyphTypesetter", () => {
 		return GlyphTypesetter.inheritingFrom(host);
 	};
 
-	const spec = (text: string, overrides: Partial<NumericTextSpec> = {}) => ({
-		...createNumericTextSpec(),
+	const spec = (text: string, overrides: Partial<RollingNumberSpec> = {}) => ({
+		...createRollingNumberSpec(),
 		text,
 		...overrides,
 	});
